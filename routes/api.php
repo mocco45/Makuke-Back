@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Board_MemberController;
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\company\ExpenseController;
 use App\Http\Controllers\company\IncomeController;
 
@@ -72,30 +73,34 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function(){
         Route::delete('/board-member-delete/{board_member}', 'destroy');
     });
 
-});
+    Route::controller(CategoryController::class)->group(function(){
+        Route::get('/category-list', 'index');
+        Route::get('/category/{category}', 'show');
+        Route::get('/category/{category}/edit', 'edit');
+        Route::post('/category/{category}/update', 'update');
+        Route::delete('/category/{category}/delete', 'delete');
+        Route::post('/category/{category}/store', 'store');
+    });
 
-Route::middleware(['auth:sanctum'])->group(function(){
     Route::post('/logout', [LoginController::class , 'destroy'])->name('logout');
 
 });
-
-    // Route::get('/loan', [LoanController::class, 'index']);
 
     Route::middleware(['guest'])->group(function(){
         Route::post('/login', [LoginController::class, 'login'])->name('login');
     }); 
 
 
-Route::middleware(['auth:sanctum', 'role:CEO'])->group(function(){
+Route::middleware(['auth:sanctum', 'CEO' , 'admin'])->group(function(){
 
 });
-Route::middleware(['auth:sanctum', 'role:Manager'])->group(function(){
+Route::middleware(['auth:sanctum', 'Manager' , 'admin'])->group(function(){
 
 });
-Route::middleware(['auth:sanctum', 'role:Cashier'])->group(function(){
+Route::middleware(['auth:sanctum', 'Cashier' , 'admin'])->group(function(){
 
 });
-Route::middleware(['auth:sanctum', 'role:Loan-Officer'])->group(function(){
+Route::middleware(['auth:sanctum', 'Loan-Officer' , 'admin'])->group(function(){
 
 });
 

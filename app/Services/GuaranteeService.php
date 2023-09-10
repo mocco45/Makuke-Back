@@ -9,19 +9,6 @@ class GuaranteeService
     public function Rstore($request, $id1, $id2)
     {
 
-        // if($request->hasFile('image')){
-        //     $img = $request->file('image');
-        //     $name = $img->getClientOriginalName();
-        //     $name = $img->getClientOriginalName();
-        //     $destination = public_path('Images/Referee_Guarantee');
-        //     $img->move($destination, $name);
-
-        // }
-        // $name = $request->file('image')->getClientOriginalName();
-
-        // $name = $request->file('image')->getClientOriginalName();
-
-        // Check if the first referee guarantee image was uploaded
         if ($request->hasFile('ref_trusteeGuaranteeImage')) {
             $uploadedRFile = $request->file('ref_trusteeGuaranteeImage');
             $refGuaranteeImg = time() . '.' . $uploadedRFile->getClientOriginalExtension();

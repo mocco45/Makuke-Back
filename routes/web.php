@@ -24,7 +24,6 @@ Route::get('/test', function(){
     return view('test');
 });
 
-require __DIR__.'/auth.php';
 
 // Route::('/about', function (){
 //     return view('bladePageName');
