@@ -30,11 +30,18 @@ class Board_MemberController extends Controller
             'lastName' => 'required|string',
             'gender' => 'required|string|',
             'phone' => 'required|numeric',
-            'email' => 'required|string|email|unique:'. Board_Member::class,
+            'email' => 'email|unique:'. Board_Member::class,
             'address' => 'required|string',
             'position' => 'required|string',
-            'photo' => 'required|string|mimes:jpeg,png,jpg',
+            'photo' => 'image|mimes:jpeg,png,jpg',
         ]);
+
+        if($request->hasFile('photo')){
+            $img = $request->file('photo');
+            $memberPhoto = time() . '.' .$img->getClientOriginalExtension();
+            $img->storeAs('public/images/board-members', $memberPhoto);
+
+        }
 
         if($validated){
            $board = Board_Member::create([
@@ -45,7 +52,7 @@ class Board_MemberController extends Controller
                 'email' => $request->email,
                 'address' => $request->address,
                 'position' => $request->position,
-                'photo' => $request->photo,
+                'photo' => $memberPhoto,
             ]);
         }
         return response()->json(['Member added successfully', 'data' => $board]);
@@ -83,7 +90,7 @@ class Board_MemberController extends Controller
         if(Auth::user()->id == $board_member->id){
             return response()->json(['Access Denied'], abort(401));
         }
-dd($board_member);
+
         $boardM = $board_member->delete();
         
         

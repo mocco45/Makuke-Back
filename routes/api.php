@@ -69,10 +69,14 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function(){
         Route::get('/board-members', 'index');
         Route::get('/board-member/{board_member}', 'show');
         Route::post('/board-member-update/{board_member}', 'update');
-        // Route::delete('/board-member-delete/{board_member}', 'destroy');
+        Route::delete('/board-member-delete/{board_member}', 'destroy');
     });
 
+});
+
+Route::middleware(['auth:sanctum'])->group(function(){
     Route::post('/logout', [LoginController::class , 'destroy'])->name('logout');
+
 });
 
     // Route::get('/loan', [LoanController::class, 'index']);

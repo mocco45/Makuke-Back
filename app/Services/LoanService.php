@@ -58,7 +58,7 @@ class LoanService
 
         }
         else{
-            return response()->json(['Put Valid Loan Amount']);
+            return response()->json(['Put Valid Loan Amount'], abort(500));
         }
         
         // Extract input data from the request

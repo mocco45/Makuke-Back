@@ -25,13 +25,21 @@ class StaffResource extends JsonResource
             'region' => $this->region,
             'gender' => $this->gender,
             'maritalStatus' => $this->maritalStatus,
-            'financials' => $this->financials->map(function($financials){
-                return [ 
+            // 'financials' => $this->financials->map(function($financials){
+            //     return [ 
+            //         'basicSalary' => $financials->basicSalary,
+            //         'bankAccount' => $financials->bankAccount,
+            //         'bankName' => $financials->bankName,
+            //         'bankAccountHolderName' => $financials->bankAccountHolderName,
+            //     ];}),
+            'financials' => $this->financials->map(function ($financials) {
+                return [
                     'basicSalary' => $financials->basicSalary,
                     'bankAccount' => $financials->bankAccount,
                     'bankName' => $financials->bankName,
                     'bankAccountHolderName' => $financials->bankAccountHolderName,
-                ];}),
+                ];
+            })->first(), // Use first() to return the first financials object
             'role' => $this->role->name,
             'branch' => $this->branch->branch_name,
             'email' => $this->email,
