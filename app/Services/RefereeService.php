@@ -8,24 +8,7 @@ class RefereeService
 
     public function store($request, $cid)
     {
-            // if($request->hasFile('ref_photo')){
-            //     $img = $request->file('ref_photo');
-            //     $name =$img->getClientOriginalName();
-            //     $destination = public_path('Images/Referee');
-            //     $img->move($destination, $name);
-
-            // }
-            // $name = $request->file('ref_photo')->getClientOriginalName();
-
-            // if($request->hasFile('ref2_photo')){
-            //     $img = $request->file('ref2_photo');
-            //     $name =$img->getClientOriginalName();
-            //     $destination = public_path('Images/Referee');
-            //     $img->move($destination, $name);
-
-            // }
-            // $name2 = $request->file('ref2_photo')->getClientOriginalName();
-
+            
             if ($request->hasFile('ref_photo')) {
             $uploadedRefFile = $request->file('ref_photo');
             $refImage = time() . '.' . $uploadedRefFile->getClientOriginalExtension();
@@ -78,7 +61,7 @@ class RefereeService
             $Gservice->Rstore($request, $ref1, $ref2);
             $Gservice->Cstore($request, $cid);
 
-            return response()->json(["Referee Created Successfully", 'ref1' => $Referee1, 'Ref' => $Referee2]);
+            return response()->json(["Referee Created Successfully"]);
 
     }
 }

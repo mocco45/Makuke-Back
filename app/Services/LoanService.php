@@ -42,14 +42,14 @@ class LoanService
 
         if($category->name !== 'super'){
 
-            $emi = ($principal * $interestRate * pow((1 + $interestRate),$repaymentTime))/(pow((1 + $interestRate),$repaymentTime)-1);
+             ($principal * $interestRate * pow((1 + $interestRate),$repaymentTime))/(pow((1 + $interestRate),$repaymentTime)-1);
 
-            return "successfully For" . $category->name . $emi;
+            return "successfully For";
         }
         elseif($category->name == 'super'){
-            $emi = $principal + ($principal * 0.3);
+             $principal + ($principal * 0.3);
 
-            return "Successfully For Super Loan" . $emi;
+            return "Successfully For Super Loan";
         }
 
         else{
