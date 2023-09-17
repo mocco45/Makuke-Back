@@ -11,18 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('referee', function (Blueprint $table) {
+        Schema::create('rejected_reasons', function (Blueprint $table) {
             $table->id();
-            $table->string('firstName');
-            $table->string('lastName');
-            $table->string('gender');
-            $table->string('occupation');
-            $table->string('region');
-            $table->string('district');
-            $table->string('street');
-            $table->string('photo');
-            $table->integer('phone');
-            $table->integer('nida');
+            $table->string('reasons');
             $table->unsignedBigInteger('customer_loan_id');
             $table->foreign('customer_loan_id')->references('id')->on('customer_loan');
             $table->timestamps();
@@ -34,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('referee');
+        Schema::dropIfExists('rejected_reasons');
     }
 };

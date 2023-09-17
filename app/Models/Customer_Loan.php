@@ -18,7 +18,7 @@ class Customer_Loan extends Model
     }
 
     public function referee(){
-        return $this->hasMany(Referee::class);
+        return $this->hasMany(Referee::class, 'customer_loan_id');
     }
 
     public function loan_payment(){
@@ -31,5 +31,9 @@ class Customer_Loan extends Model
 
     public function category(){
         return $this->hasOne(Category::class);
+    }
+
+    public function customer_guarantee(){
+        return $this->hasMany(Customer_Guarantee::class, 'customer_loan_id');
     }
 }

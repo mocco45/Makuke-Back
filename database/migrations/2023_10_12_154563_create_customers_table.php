@@ -20,7 +20,8 @@ return new class extends Migration
             $table->string('gender');
             $table->string('photo')->nullable();
             $table->string('marital_status');
-            $table->bigInteger('phone');
+            $table->integer('phone');
+            $table->integer('nida');
             $table->string('region');
             $table->string('district');
             $table->string('street');

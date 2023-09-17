@@ -30,11 +30,16 @@ class CustomersController extends Controller
     public function store(Request $request){
 
         try {
+
+        if($request->status == "approved"){
+
+        }            
+
             DB::beginTransaction();
 
             // // Validate the uploaded file
               $request->validate([
-                'customerImage' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust validation rules as needed
+                'customerImage' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust validation rules as needed
             ]); 
             // Store the uploaded file
           
@@ -51,13 +56,13 @@ class CustomersController extends Controller
                     'otherName' => $request->otherName,
                     'email' => $request->email,
                     'gender' => $request->gender,
-                    'marital_status' => $request->maritalStatus,
+                    'marital_status' => $request->marital_status,
                     'phone' => $request->phone,
+                    'nida' => $request->nida,
                     'occupation' => $request->occupation,
                     'region' => $request->region,
                     'district' => $request->district,
                     'street' => $request->street,
-                    // 'image' => $request->customerImage,
                     'photo' => $customerFileName,
                 ]);
 
@@ -74,7 +79,7 @@ class CustomersController extends Controller
                 return response()->json(['Customer created successfully'],200);
     } catch (\Throwable $th) {
         DB::rollBack();
-        return response()->json(['Error occured', 'error' => $th->getMessage()],500);
+        return response()->json(['Error occured', 'error' => $th->getMessage() .' '.$th],500);
     }
 
         

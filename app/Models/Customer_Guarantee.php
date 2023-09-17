@@ -12,7 +12,7 @@ class Customer_Guarantee extends Model
 
     public $table = 'customer_guarantee';
 
-    public function customer(){
-        return $this->belongsTo(Customer::class);
+    public function customer_loan(){
+        return $this->belongsTo(Customer_Loan::class);
     }
 }

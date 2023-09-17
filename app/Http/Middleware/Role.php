@@ -7,23 +7,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class CEO
+class Role
 {
     /**
      * Handle an incoming request.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next, ...$roles): Response
     {
-        $role = Auth::user()->role;
-        foreach ($role as  $value) {
-            if($value->name == 'CEO'){
-                return $next($request); 
-             }
-             else{
-                 return abort(401);;
-             }
+        $userRole = auth()->user()->role->name;
+        if (in_array($userRole, $roles)) {
+            return $next($request);
         }
+        
+        return abort(403, 'Unauthorized');
     }
 }
