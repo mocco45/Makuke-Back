@@ -51,7 +51,7 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 
 Route::post('/upload-user', [RegisteredUserController::class, 'uploadStaffImage']);
 
-Route::middleware(['auth:sanctum', 'admin'])->group(function(){
+Route::middleware(['auth:sanctum', 'role:admin'])->group(function(){
     
     Route::controller(BranchController::class)->group(function (){
         Route::get('/branches', 'index');
@@ -93,16 +93,6 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function(){
         Route::delete('/category/{category}/delete', 'delete');
         Route::post('/category/{category}/store', 'store');
     });
-
-    Route::controller(CategoryController::class)->group(function(){
-        Route::get('/category-list', 'index');
-        Route::get('/category/{category}', 'show');
-        Route::get('/category/{category}/edit', 'edit');
-        Route::post('/category/{category}/update', 'update');
-        Route::delete('/category/{category}/delete', 'delete');
-        Route::post('/category/{category}/store', 'store');
-    });
-
     Route::post('/logout', [LoginController::class , 'destroy'])->name('logout');
     
 });
