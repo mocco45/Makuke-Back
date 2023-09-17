@@ -94,6 +94,15 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function(){
         Route::post('/category/{category}/store', 'store');
     });
 
+    Route::controller(CategoryController::class)->group(function(){
+        Route::get('/category-list', 'index');
+        Route::get('/category/{category}', 'show');
+        Route::get('/category/{category}/edit', 'edit');
+        Route::post('/category/{category}/update', 'update');
+        Route::delete('/category/{category}/delete', 'delete');
+        Route::post('/category/{category}/store', 'store');
+    });
+
     Route::post('/logout', [LoginController::class , 'destroy'])->name('logout');
     
 });
@@ -112,7 +121,7 @@ Route::middleware(['auth:sanctum', 'role:Manager,CEO,admin'])->group(function(){
 Route::middleware(['auth:sanctum', 'role:Cashier'])->group(function(){
     
 });
-Route::middleware(['auth:sanctum', 'role:Loan-Officer'])->group(function(){
+Route::middleware(['auth:sanctum', 'Loan-Officer' , 'admin'])->group(function(){
 
 });
 
