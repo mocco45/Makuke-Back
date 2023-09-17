@@ -52,7 +52,7 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function(){
         Route::get('/staffs', 'index');
         Route::get('/staff/{user}', 'show');
         Route::get('/staff-edit/{user}', 'edit');
-        Route::post('/update/{user}', 'update')->name('update-user');
+        Route::post('/staff-update/{user}', 'update')->name('update-user');
         Route::delete('/delete/{user}', 'destroy')->name('destroy-user');
     });
 

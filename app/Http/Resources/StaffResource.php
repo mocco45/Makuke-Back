@@ -24,6 +24,7 @@ class StaffResource extends JsonResource
             'district' => $this->district,
             'region' => $this->region,
             'gender' => $this->gender,
+            'age' => $this->age,
             'maritalStatus' => $this->maritalStatus,
             // 'financials' => $this->financials->map(function($financials){
             //     return [ 
@@ -43,7 +44,7 @@ class StaffResource extends JsonResource
             'role' => $this->role->name,
             'branch' => $this->branch->branch_name,
             'email' => $this->email,
-            'photo' => $this->photo,
+            'photo' => asset('storage/images/staffs/' . $this->photo),
             'created_at' => $this->created_at,
             
         ];

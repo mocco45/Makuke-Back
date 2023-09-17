@@ -25,7 +25,7 @@ class CustomerResource extends JsonResource
             'region' => $this->region,
             'district' => $this->district,
             'street' => $this->street,
-            'image' => $this->image,
+            'image' => asset('storage/images/customers/' . $this->image),
         ];
     }
 }

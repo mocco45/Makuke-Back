@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Http\Resources\BoardResource;
 use App\Models\Board_Member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+
 
 class Board_MemberController extends Controller
 {
@@ -22,6 +25,32 @@ class Board_MemberController extends Controller
         return new BoardResource($boardM);
     }
 
+    public function uploadMemberImage(Request $request)
+    {
+        try {
+            // Validate the uploaded file
+            $request->validate([
+                'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust validation rules as needed
+            ]);
+
+            // Store the uploaded file
+            $uploadedFile = $request->file('photo');
+            $memberImageName = time() . '.' . $uploadedFile->getClientOriginalExtension();
+            $uploadedFile->storeAs('public/images/memberss', $memberImageName);
+
+            // Pass the $memberImageName to the store function
+            
+
+
+            return $memberImageName;
+          
+
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()], 500);
+        }
+    }
+
+
     public function store(Request $request){
         try {
             
@@ -29,15 +58,15 @@ class Board_MemberController extends Controller
             'firstName' => 'required|string',
             'lastName' => 'required|string',
             'gender' => 'required|string|',
-            'phone' => 'required|numeric',
+            'phone' => 'required',
             'email' => 'email|unique:'. Board_Member::class,
             'address' => 'required|string',
             'position' => 'required|string',
-            'photo' => 'image|mimes:jpeg,png,jpg',
+            'file' => 'image|mimes:jpeg,png,jpg',
         ]);
 
-        if($request->hasFile('photo')){
-            $img = $request->file('photo');
+        if($request->hasFile('file')){
+            $img = $request->file('file');
             $memberPhoto = time() . '.' .$img->getClientOriginalExtension();
             $img->storeAs('public/images/board-members', $memberPhoto);
 
@@ -61,15 +90,43 @@ class Board_MemberController extends Controller
     } catch (\Throwable $th) {
 
         return response()->json(['Error occured', 'error' => $th->getMessage()],500);
+    }   
     }
 
-        
-    }
+    public function update(Board_Member $board_member, Request $request)
+{
+        // Check if the board member exists
+        if (!$board_member) {
+            return response()->json(['error' => 'Board member not found'], 404);
+        }
 
-    public function update(Board_Member $board_member, Request $request){
-        try {
-            $boardM = Board_Member::find($board_member->id);
-            $boardM->update([
+        $validated = $request->validate([
+            'firstName' => 'required|string',
+            'lastName' => 'required|string',
+            'gender' => 'required|string',
+            'phone' => 'required',
+            'email' => 'email|unique:board_members,email,' . $board_member->id,
+            'address' => 'required|string',
+            'position' => 'required|string',
+            'file' => 'image|mimes:jpeg,png,jpg',
+        ]);
+
+        $memberPhotoUpdate = $board_member->photo; // Default to the current photo
+
+        if($request->hasFile('file')){
+            $img = $request->file('file');
+            $memberPhotoUpdate = time() . '.' .$img->getClientOriginalExtension();
+            $img->storeAs('public/images/board-members', $memberPhotoUpdate);
+
+            // Delete the old photo file if it exists
+            $oldPhotoPath = public_path('storage/images/board-members/' . $board_member->photo);
+            if (File::exists($oldPhotoPath)) {
+                File::delete($oldPhotoPath);
+            }
+        }
+
+        if($validated){
+            $board_member->update([
                 'firstName' => $request->firstName,
                 'lastName' => $request->lastName,
                 'gender' => $request->gender,
@@ -77,14 +134,15 @@ class Board_MemberController extends Controller
                 'email' => $request->email,
                 'address' => $request->address,
                 'position' => $request->position,
-                'photo' => $request->photo,
+                'photo' => $memberPhotoUpdate,
             ]);
-
-            return response()->json(['Member updated Successfully']);
-        } catch (\Throwable $th) {
-            return response()->json(['Error Occured', 'error' => $th->getMessage()],500);
         }
-    }
+
+        return response()->json(['message' => 'Member updated successfully']);
+
+}
+
+
 
     public function destroy(Board_Member $board_member){
         if(Auth::user()->id == $board_member->id){

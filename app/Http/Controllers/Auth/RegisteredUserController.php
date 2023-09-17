@@ -74,26 +74,17 @@ class RegisteredUserController extends Controller
             'bankAccountHolderName' => ['required', 'string', 'max:255'],
             'bankName' => ['required', 'string'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
-            'photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
-            // 'photo' => ['nullable|image|mimes:jpeg,png,jpg,gif|max:2048'],
+            'file' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+            // 'file' => ['nullable|image|mimes:jpeg,png,jpg,gif|max:2048'],
             'password' => ['required'],
         ]);
-        // $imageName = time().'.'.$request->photo->getClientOriginalExtension();
-        // $request->image->move(public_path('images'), $imageName);
 
-          // Store the uploaded file
-            $uploadedFile = $request->photo;
-            $staffFileName = time() . '.' . $uploadedFile->getClientOriginalExtension();
-            $uploadedFile->storeAs('public/images/staffs', $staffFileName);
+        if($request->hasFile('file')){
+            $img = $request->file('file');
+            $staffFileName = time() . '.' .$img->getClientOriginalExtension();
+            $img->storeAs('public/images/staffs', $staffFileName);
 
-        // // Validate the uploaded file
-            //   $request->validate([
-            //     'file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust validation rules as needed
-            // ]); 
-            // // Store the uploaded file
-            // $uploadedFile = $request->file('file');
-            // $customerFileName = time() . '.' . $uploadedFile->getClientOriginalExtension();
-            // $uploadedFile->storeAs('public/images/customers', $customerFileName);
+        }
 
         $data = session('data');
 
@@ -171,12 +162,14 @@ class RegisteredUserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        if($request->hasFile('image')){
-            $img = $request->file('image');
-            $name = time().'-'. $img->getClientOriginalName();
-            $destination = public_path('Images/User');
-            $img->move($destination, $name);
+        
+        if($request->hasFile('file')){
+            $img = $request->file('file');
+            $staffFileName = time() . '.' .$img->getClientOriginalExtension();
+            $img->storeAs('public/images/staffs', $staffFileName);
+
         }
+
         $data = $user->update($request->all());
 
         return response($data);

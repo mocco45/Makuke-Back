@@ -24,7 +24,7 @@ class BoardResource extends JsonResource
             'email' => $this->email,
             'address' => $this->address,
             'position' => $this->position,
-            'photo' => $this->photo
+            'photo' => asset('storage/images/board-members/' . $this->photo),
         ];
     }
 }
