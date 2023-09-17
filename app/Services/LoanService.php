@@ -27,8 +27,8 @@ class LoanService
 
             $loan = Customer_Loan::create([
                 'amount' => $request->loanAmount,
-                'repayment_time' => $request->paymentDate,
-                'interest_rate' => $request->interestRate,
+                'repayment_time' => $category->duration,
+                'interest_rate' => $category->interest,
                 'category_id' => $category->id,
                 'customer_id' => $customer_id
             ]);
@@ -37,8 +37,8 @@ class LoanService
             $customerLoan_id->store($request,$cid);
 
             $principal = $request->amount;
-        $interestRate = $request->interest_rate;
-        $repaymentTime = $request->repayment_time;
+        $interestRate = $category->interest;
+        $repaymentTime = $category->duration;
 
         if($category->name !== 'super'){
 
