@@ -19,7 +19,7 @@ class LoanService
     {
         
         $customer_id = $this->loanee_id;
-        $amount = $request->loanAmount;
+        $amount = $request->amount;
         $category = Category::where('start_range', '<=', $amount)
                     ->where('final_range', '>=', $amount)->first();
 
@@ -30,26 +30,26 @@ class LoanService
                 'repayment_time' => $request->paymentDate,
                 'interest_rate' => $request->interestRate,
                 'category_id' => $category->id,
-                'customer_id' => $customer_id,
+                'customer_id' => $customer_id
             ]);
             $cid = $loan->id;
             $customerLoan_id = app(RefereeService::class);
             $customerLoan_id->store($request,$cid);
 
-            $principal = $request->loanAmount;
-        $interestRate = $request->interestRate;
-        $repaymentTime = $request->paymentDate;
+            $principal = $request->amount;
+        $interestRate = $request->interest_rate;
+        $repaymentTime = $request->repayment_time;
 
         if($category->name !== 'super'){
 
-            $emi = ($principal * $interestRate * pow((1 + $interestRate),$repaymentTime))/(pow((1 + $interestRate),$repaymentTime)-1);
+             ($principal * $interestRate * pow((1 + $interestRate),$repaymentTime))/(pow((1 + $interestRate),$repaymentTime)-1);
 
-            return "successfully For" . $category->name . $emi;
+            return "successfully For";
         }
         elseif($category->name == 'super'){
-            $emi = $principal + ($principal * 0.3);
+             $principal + ($principal * 0.3);
 
-            return "Successfully For Super Loan" . $emi;
+            return "Successfully For Super Loan";
         }
 
         else{

@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\ApprovalController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Board_MemberController;
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\company\ExpenseController;
 use App\Http\Controllers\company\IncomeController;
 
@@ -30,6 +32,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Route::middleware(['auth:sanctum'])->post('/upload', [ImageUploadController::class, 'upload'])->name('image.upload');
+
+
+Route::post('/refresh-token', function (Request $request) {
+    $user = $request->user();
+    $user->tokens->each->delete();
+
+    $token = $user->createToken('token-name')->plainTextToken;
+
+    return response()->json(['token' => $token]);
+})->middleware(['auth:sanctum']);
+
 Route::post('/upload-customer', [CustomersController::class, 'uploadCustomerImage'])->name('image.upload');
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
@@ -69,27 +82,35 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function(){
         Route::get('/board-members', 'index');
         Route::get('/board-member/{board_member}', 'show');
         Route::post('/board-member-update/{board_member}', 'update');
-        // Route::delete('/board-member-delete/{board_member}', 'destroy');
+        Route::delete('/board-member-delete/{board_member}', 'destroy');
+    });
+
+    Route::controller(CategoryController::class)->group(function(){
+        Route::get('/category-list', 'index');
+        Route::get('/category/{category}', 'show');
+        Route::get('/category/{category}/edit', 'edit');
+        Route::post('/category/{category}/update', 'update');
+        Route::delete('/category/{category}/delete', 'delete');
+        Route::post('/category/{category}/store', 'store');
     });
 
     Route::post('/logout', [LoginController::class , 'destroy'])->name('logout');
+    
 });
-
-    // Route::get('/loan', [LoanController::class, 'index']);
 
     Route::middleware(['guest'])->group(function(){
         Route::post('/login', [LoginController::class, 'login'])->name('login');
     }); 
 
 
-Route::middleware(['auth:sanctum', 'role:CEO'])->group(function(){
-
+Route::middleware(['auth:sanctum', 'role:Manager,CEO,admin'])->group(function(){
+    Route::post('/accept/{customer_Loan}', [ApprovalController::class, 'acceptupdate']);
+    Route::post('/reject/{customer_Loan}', [ApprovalController::class, 'rejectupdate']);
+    Route::get('/loan-approval', [ApprovalController::class, 'index']);
 });
-Route::middleware(['auth:sanctum', 'role:Manager'])->group(function(){
 
-});
 Route::middleware(['auth:sanctum', 'role:Cashier'])->group(function(){
-
+    
 });
 Route::middleware(['auth:sanctum', 'role:Loan-Officer'])->group(function(){
 
@@ -97,7 +118,6 @@ Route::middleware(['auth:sanctum', 'role:Loan-Officer'])->group(function(){
 
 Route::get('/roles',[RolesController::class, 'index']);
 Route::get('/roles/{id}', [RolesController::class, 'show']);
-
 
 
 Route::resources([
@@ -109,4 +129,5 @@ Route::resources([
     'expense' => ExpenseController::class,
     'income' => IncomeController::class,
 ]);
+
 

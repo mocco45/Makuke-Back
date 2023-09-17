@@ -27,43 +27,19 @@ class CustomersController extends Controller
         return new CustomerResource($customer_find);
     }
 
-    // public function uploadCustomerImage(Request $request)
-    // {
-    //     try {
-    //         // Validate the uploaded file
-    //         $request->validate([
-    //             'file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust validation rules as needed
-    //         ]);
-
-    //         // Store the uploaded file
-    //         $uploadedFile = $request->file('file');
-    //         $customerFileName = time() . '.' . $uploadedFile->getClientOriginalExtension();
-    //         $uploadedFile->storeAs('public/images/customers', $customerFileName);
-
-    //         // Pass the $customerFileName to the store function
-    //         return $this->store($request, $customerFileName);
-    //     } catch (\Throwable $th) {
-    //         return response()->json(['error' => $th->getMessage()], 500);
-    //     }
-    // }
-
-     // if($request->hasFile('customerGuaranteeImage')){
-            // $img = $request->file('customerGuaranteeImage');
-            // $name = $img->getClientOriginalName();
-            // $destination = public_path('Images/Customer');
-            // $img->move($destination, $name);
-            // }
-
-            // $name = $request->file('customerGuaranteeImage')->getClientOriginalName();
-
     public function store(Request $request){
 
         try {
+
+        if($request->status == "approved"){
+
+        }            
+
             DB::beginTransaction();
 
             // // Validate the uploaded file
               $request->validate([
-                'customerImage' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust validation rules as needed
+                'customerImage' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust validation rules as needed
             ]); 
             // Store the uploaded file
           
@@ -80,13 +56,13 @@ class CustomersController extends Controller
                     'otherName' => $request->otherName,
                     'email' => $request->email,
                     'gender' => $request->gender,
-                    'marital_status' => $request->maritalStatus,
+                    'marital_status' => $request->marital_status,
                     'phone' => $request->phone,
+                    'nida' => $request->nida,
                     'occupation' => $request->occupation,
                     'region' => $request->region,
                     'district' => $request->district,
                     'street' => $request->street,
-                    // 'image' => $request->customerImage,
                     'photo' => $customerFileName,
                 ]);
 
@@ -100,10 +76,10 @@ class CustomersController extends Controller
             
                 DB::commit();
             
-                return response()->json(['Customer created successfully', 'customer' => $customer],201);
+                return response()->json(['Customer created successfully'],200);
     } catch (\Throwable $th) {
         DB::rollBack();
-        return response()->json(['Error occured', 'error' => $th->getMessage()],500);
+        return response()->json(['Error occured', 'error' => $th->getMessage() .' '.$th],500);
     }
 
         
@@ -143,7 +119,7 @@ class CustomersController extends Controller
         ]);
     
 
-        return response()->json(['Customer update successfully', 'customer' => $customers],201);
+        return response()->json(['Customer update successfully'],200);
              //code...
             } catch (\Throwable $th) {
                 return response()->json(['Error occured', 'error' => $th->getMessage()],500);
