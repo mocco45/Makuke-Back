@@ -19,7 +19,7 @@ class LoanService
     {
         
         $customer_id = $this->loanee_id;
-        $amount = $request->amount;
+        $amount = $request->loanAmount;
         $category = Category::where('start_range', '<=', $amount)
                     ->where('final_range', '>=', $amount)->first();
 

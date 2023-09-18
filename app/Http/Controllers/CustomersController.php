@@ -56,7 +56,7 @@ class CustomersController extends Controller
                     'otherName' => $request->otherName,
                     'email' => $request->email,
                     'gender' => $request->gender,
-                    'marital_status' => $request->marital_status,
+                    'marital_status' => $request->maritalStatus,
                     'phone' => $request->phone,
                     'nida' => $request->nida,
                     'occupation' => $request->occupation,

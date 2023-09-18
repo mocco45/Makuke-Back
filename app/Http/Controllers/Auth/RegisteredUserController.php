@@ -89,7 +89,7 @@ class RegisteredUserController extends Controller
         $data = session('data');
 
         
-        // $staffImage = $this->uploadStaffImage($request);
+        // $staffImage = $this->uploadStaffImage($request);rr
        
      
        $userFinancials = Financials::create([
@@ -133,7 +133,7 @@ class RegisteredUserController extends Controller
         // $data = $request->dataImage;
         // Auth::login($user);
 
-        return response(['user created successfully', "img" => $staffFileName]);
+        return response(['user created successfully']);
     }
 
     

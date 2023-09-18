@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('photo')->nullable();
             $table->string('marital_status');
             $table->integer('phone');
-            $table->integer('nida');
+            $table->bigInteger('nida');
             $table->string('region');
             $table->string('district');
             $table->string('street');
