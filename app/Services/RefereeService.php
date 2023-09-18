@@ -37,6 +37,7 @@ class RefereeService
                 'district' => $request->ref_district,
                 'street' => $request->ref_street,
                 'photo' => $refImage,
+                'nida' => $request->nida,
                 'phone' => $request->ref_phone,
                 'customer_loan_id' => $cid
             ];
@@ -50,6 +51,7 @@ class RefereeService
                 'district' => $request->ref2_district,
                 'street' => $request->ref2_street,
                 'photo' => $ref2Image,
+                'nida' => $request->nida,
                 'phone' => $request->ref2_phone,
                 'customer_loan_id' => $cid
             ];

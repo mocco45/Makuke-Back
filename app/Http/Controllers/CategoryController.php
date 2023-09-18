@@ -24,6 +24,8 @@ class CategoryController extends Controller
             'name' => 'required|string',
             'start_range' => 'required|numeric',
             'final_range' => 'required|numeric',
+            'duration' => 'required|numeric',
+            'interest' => 'required|numeric',
         ]);
 
         if($valid){
@@ -31,6 +33,8 @@ class CategoryController extends Controller
                 'name' => $request->name,
                 'start_range' => $request->start_range,
                 'final_range' => $request->final_range,
+                'duration' => $request->duration,
+                'interest' => $request->interest,
             ]);
 
             return response()->json(['Category Successfully Created']);
@@ -51,6 +55,8 @@ class CategoryController extends Controller
             'name' => 'required|string',
             'start_range' => 'required|numeric',
             'final_range' => 'required|numeric',
+            'duration' => 'required|numeric',
+            'interest' => 'required|numeric',
         ]);
 
         if($valid){

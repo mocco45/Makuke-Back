@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('street');
             $table->string('photo');
             $table->integer('phone');
-            $table->integer('nida');
+            $table->bigInteger('nida');
             $table->unsignedBigInteger('customer_loan_id');
             $table->foreign('customer_loan_id')->references('id')->on('customer_loan');
             $table->timestamps();
