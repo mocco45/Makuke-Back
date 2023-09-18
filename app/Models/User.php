@@ -49,6 +49,10 @@ class User extends Authenticatable
         return $this->hasOne(Role::class, 'id', 'role_id');
     }
 
+    public function accomodations(){
+        return $this->hasOne(Accomodations::class, 'id', 'sccomodations_id');
+    }
+
     public function branch(){
         return $this->hasOne(Branch::class, 'id', 'branch_id');
     }

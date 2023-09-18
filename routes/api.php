@@ -16,7 +16,9 @@ use App\Http\Controllers\RolesController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\payrol\AllowanceController;
 use App\Http\Controllers\payrol\DeductionsController;
+use App\Http\Controllers\PayrollController;
 use App\Models\Board_Member;
+use App\Models\Payroll;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -49,53 +51,11 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/upload-user', [RegisteredUserController::class, 'uploadStaffImage']);
 
-Route::middleware(['auth:sanctum', 'role:admin'])->group(function(){
-    
-    Route::controller(BranchController::class)->group(function (){
-        Route::get('/branches', 'index');
-        Route::post('/branches/create','store');
-        Route::get('/branches/{branch}','show');
-        Route::delete('branches/{branch}', 'destroy');
-    });
-    Route::controller(RegisteredUserController::class)->group(function(){
-        Route::post('/create', 'store')->name('create-user');
-        Route::get('/staffs', 'index');
-        Route::get('/staff/{user}', 'show');
-        Route::get('/staff-edit/{user}', 'edit');
-        Route::post('/staff-update/{user}', 'update')->name('update-user');
-        Route::delete('/delete/{user}', 'destroy')->name('destroy-user');
-    });
 
-    Route::controller(CustomersController::class)->group(function(){
-        Route::post('/create-customer', 'store');
-        Route::get('/customers', 'index');
-        Route::get('/customer/{customer}', 'show');
-        Route::get('/customer-edit/{customer}', 'edit');
-        Route::post('/customer-update/{customer}', 'update');
-        Route::delete('/customer-delete/{customer}', 'destroy');
-    });
+Route::post('/logout', [LoginController::class , 'destroy'])->name('logout');
     
-    Route::controller(Board_MemberController::class)->group(function(){
-        Route::post('/create-board', 'store');
-        Route::get('/board-members', 'index');
-        Route::get('/board-member/{board_member}', 'show');
-        Route::post('/board-member-update/{board_member}', 'update');
-        Route::delete('/board-member-delete/{board_member}', 'destroy');
-    });
 
-    Route::controller(CategoryController::class)->group(function(){
-        Route::get('/category-list', 'index');
-        Route::get('/category/{category}', 'show');
-        Route::get('/category/{category}/edit', 'edit');
-        Route::post('/category/{category}/update', 'update');
-        Route::delete('/category/{category}/delete', 'delete');
-        Route::post('/category/{category}/store', 'store');
-    });
-    Route::post('/logout', [LoginController::class , 'destroy'])->name('logout');
-    
-});
 
     Route::middleware(['guest'])->group(function(){
         Route::post('/login', [LoginController::class, 'login'])->name('login');
@@ -108,25 +68,74 @@ Route::middleware(['auth:sanctum', 'role:Manager,CEO,admin'])->group(function(){
     Route::get('/loan-approval', [ApprovalController::class, 'index']);
 });
 
+
+Route::middleware(['auth:sanctum', 'role:CEO,admin,Manager'])->group(function(){
+    Route::controller(RegisteredUserController::class)->group(function(){
+        Route::post('/create', 'store')->name('create-user');
+        Route::get('/staffs', 'index');
+        Route::get('/staff/{user}', 'show');
+        Route::get('/staff-edit/{user}', 'edit');
+        Route::post('/staff-update/{user}', 'update')->name('update-user');
+        Route::delete('/delete/{user}', 'destroy')->name('destroy-user');
+        Route::post('/upload-user', 'uploadStaffImage');
+    });
+
+    Route::controller(Board_MemberController::class)->group(function(){
+        Route::post('/create-board', 'store');
+        Route::get('/board-members', 'index');
+        Route::get('/board-member/{board_member}', 'show');
+        Route::post('/board-member-update/{board_member}', 'update');
+        Route::delete('/board-member-delete/{board_member}', 'destroy');
+    });
+
+    Route::controller(BranchController::class)->group(function (){
+        Route::get('/branches', 'index');
+        Route::post('/branches/create','store');
+        Route::get('/branches/{branch}','show');
+        Route::delete('branches/{branch}', 'destroy');
+    });
+});
+
+
+Route::middleware(['auth:sanctum', 'role:Loan-Officer,Manager,admin'])->group(function(){
+    Route::controller(CustomersController::class)->group(function(){
+        Route::post('/create-customer', 'store');
+        Route::get('/customers', 'index');
+        Route::get('/customer/{customer}', 'show');
+        Route::get('/customer-edit/{customer}', 'edit');
+        Route::post('/customer-update/{customer}', 'update');
+        Route::delete('/customer-delete/{customer}', 'destroy');
+    });
+
+    Route::controller(CategoryController::class)->group(function(){
+        Route::get('/category-list', 'index');
+        Route::get('/category/{category}', 'show');
+        Route::get('/category/{category}/edit', 'edit');
+        Route::post('/category/{category}/update', 'update');
+        Route::delete('/category/{category}/delete', 'delete');
+        Route::post('/category/{category}/store', 'store');
+    });
+
+    Route::controller(CategoryController::class)->group(function(){
+        Route::get('/category-list', 'index');
+        Route::get('/category/{category}', 'show');
+        Route::get('/category/{category}/edit', 'edit');
+        Route::post('/category/{category}/update', 'update');
+        Route::delete('/category/{category}/delete', 'delete');
+        Route::post('/category/{category}/store', 'store');
+    });
+});
 Route::middleware(['auth:sanctum', 'role:Cashier'])->group(function(){
+    Route::controller(PayrollController::class)->group(function(){
+        Route::post('/user_allowance/{user}', 'allowance_store');
+        Route::post('/user_deduction/{user}', 'deduction_store');
+        Route::get('/user/{user}', 'index');
+    });
     
 });
-Route::middleware(['auth:sanctum', 'Loan-Officer' , 'admin'])->group(function(){
 
-});
 
 Route::get('/roles',[RolesController::class, 'index']);
 Route::get('/roles/{id}', [RolesController::class, 'show']);
-
-
-Route::resources([
-    'allowance' => AllowanceController::class,
-    'deduction' => DeductionsController::class,
-]);
-
-Route::resources([
-    'expense' => ExpenseController::class,
-    'income' => IncomeController::class,
-]);
 
 

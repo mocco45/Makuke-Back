@@ -38,6 +38,7 @@ class RefereeService
                 'nida' => $request->ref_nida,
                 'street' => $request->ref_street,
                 'photo' => $refImage,
+                'nida' => $request->nida,
                 'phone' => $request->ref_phone,
                 'customer_loan_id' => $cid
             ];
@@ -52,6 +53,7 @@ class RefereeService
                 'nida' => $request->ref2_nida,
                 'street' => $request->ref2_street,
                 'photo' => $ref2Image,
+                'nida' => $request->nida,
                 'phone' => $request->ref2_phone,
                 'customer_loan_id' => $cid
             ];

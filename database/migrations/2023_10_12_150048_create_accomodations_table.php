@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payroll', function (Blueprint $table) {
+        Schema::create('accomodations', function (Blueprint $table) {
             $table->id();
-            $table->string('type');
-            $table->string('amount');
+            $table->integer('total_allowance')->default(0);
+            $table->integer('total_deduction')->default(0);
+            $table->integer('overall_amount')->default(0);
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payroll');
+        Schema::dropIfExists('accomodations');
     }
 };

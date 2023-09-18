@@ -11,6 +11,8 @@ class Payroll extends Model
 
     public $table = 'payroll';
 
+    protected $guarded = [];
+
 
     public function user(){
         return $this->belongsTo(User::class);
