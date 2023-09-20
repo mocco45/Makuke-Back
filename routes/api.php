@@ -65,9 +65,12 @@ Route::post('/logout', [LoginController::class , 'destroy'])->name('logout');
 
 
 Route::middleware(['auth:sanctum', 'role:Manager,CEO,admin'])->group(function(){
-    Route::post('/accept/{customer_Loan}', [ApprovalController::class, 'acceptupdate']);
-    Route::post('/reject/{customer_Loan}', [ApprovalController::class, 'rejectupdate']);
-    Route::get('/loan-approval', [ApprovalController::class, 'index']);
+    Route::controller(ApprovalController::class)->group(function(){
+        Route::post('/accept/{customer_Loan}', 'acceptupdate');
+        Route::post('/reject/{customer_Loan}', 'rejectupdate');
+        Route::get('/pending', 'pending');
+        Route::get('/loan-approval', 'index');
+    });
 });
 
 
@@ -99,7 +102,7 @@ Route::middleware(['auth:sanctum', 'role:CEO,admin,Manager'])->group(function(){
 });
 
 
-Route::middleware(['auth:sanctum', 'role:Loan-Officer,Manager,admin'])->group(function(){
+Route::middleware(['auth:sanctum', 'role:Loan-Officer,Manager,admin,CEO'])->group(function(){
     Route::controller(CustomersController::class)->group(function(){
         Route::post('/create-customer', 'store');
         Route::get('/customers', 'index');

@@ -16,12 +16,24 @@ class ApprovalController extends Controller
             $approvals = Customers::with('customer_loan')->get();
     
         return response()->json(['data' => $approvals]);
+        
         }elseif(Auth::user()->role_id == 3 || Auth::user()->role_id == 1){
         $approvals = Customers::with('customer_loan', 'customer_loan.customer_guarantee', 'customer_loan.referee', 'customer_loan.referee.referee_guarantee')->get();
     
         return response()->json(['data' => $approvals]);
         }
         
+    }
+
+    public function pending(){
+        if(Auth::user()->role_id == 3 || Auth::user()->role_id == 1){
+            $pending = Customer_Loan::where('status','pending')->get();
+            
+        }elseif(Auth::user()->role_id == 2 || Auth::user()->role_id == 1){
+            $pending = Customer_Loan::where('status','manager_approved')->get();
+        }
+        
+        return response()->json($pending);
     }
 
     public function acceptupdate(Customer_Loan $customer_Loan){

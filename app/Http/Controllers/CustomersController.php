@@ -15,16 +15,16 @@ class CustomersController extends Controller
 {
 
     public function index(){
-        $customers = Customers::all();
-
-        return CustomerResource::collection($customers);
+        $customers = Customers::with('customer_loan', 'customer_loan.customer_guarantee', 'customer_loan.referee', 'customer_loan.referee.referee_guarantee')->get();
+        
+        return response()->json($customers);
     }
 
     public function show(Customers $customer){
         
         $customer_find = Customers::find($customer->id);
 
-        return new CustomerResource($customer_find);
+        return response()->json($customer_find);
     }
 
     public function store(Request $request){
