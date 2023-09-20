@@ -15,7 +15,10 @@ class CustomerResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'fullname' => $this->firstName.' '.$this->lastName,
+            'firstName' => $this->firstName,
+            'lastName' => $this->lastName,
             'other_name' => $this->otherName,
             'email' => $this->email,
             'gender' => $this->gender,
@@ -25,7 +28,7 @@ class CustomerResource extends JsonResource
             'region' => $this->region,
             'district' => $this->district,
             'street' => $this->street,
-            'image' => asset('storage/images/customers/' . $this->image),
+            'image' => asset('storage/images/customers/' . $this->photo),
         ];
     }
 }

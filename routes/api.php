@@ -11,16 +11,18 @@ use App\Http\Controllers\company\ExpenseController;
 use App\Http\Controllers\company\IncomeController;
 
 use App\Http\Controllers\CustomersController;
+use App\Http\Controllers\DeductionController;
 use App\Http\Controllers\ImageUploadController;
-use App\Http\Controllers\RolesController;
-use App\Http\Controllers\StaffController;
 use App\Http\Controllers\payrol\AllowanceController;
 use App\Http\Controllers\payrol\DeductionsController;
 use App\Http\Controllers\PayrollController;
+use App\Http\Controllers\RolesController;
+use App\Http\Controllers\StaffController;
 use App\Models\Board_Member;
 use App\Models\Payroll;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -75,7 +77,7 @@ Route::middleware(['auth:sanctum', 'role:CEO,admin,Manager'])->group(function(){
         Route::get('/staffs', 'index');
         Route::get('/staff/{user}', 'show');
         Route::get('/staff-edit/{user}', 'edit');
-        Route::post('/staff-update/{user}', 'update')->name('update-user');
+        Route::post('/update/{user}', 'update')->name('update-user');
         Route::delete('/delete/{user}', 'destroy')->name('destroy-user');
         Route::post('/upload-user', 'uploadStaffImage');
     });
@@ -116,24 +118,18 @@ Route::middleware(['auth:sanctum', 'role:Loan-Officer,Manager,admin'])->group(fu
         Route::post('/category/{category}/store', 'store');
     });
 
-    Route::controller(CategoryController::class)->group(function(){
-        Route::get('/category-list', 'index');
-        Route::get('/category/{category}', 'show');
-        Route::get('/category/{category}/edit', 'edit');
-        Route::post('/category/{category}/update', 'update');
-        Route::delete('/category/{category}/delete', 'delete');
-        Route::post('/category/{category}/store', 'store');
-    });
 });
-Route::middleware(['auth:sanctum', 'role:Cashier'])->group(function(){
+Route::middleware(['auth:sanctum', 'role:admin,Cashier'])->group(function(){
     Route::controller(PayrollController::class)->group(function(){
         Route::post('/user_allowance/{user}', 'allowance_store');
         Route::post('/user_deduction/{user}', 'deduction_store');
-        Route::get('/user/{user}', 'index');
+        Route::get('/staff', 'index');
     });
     
 });
 
+Route::resource('allowance', AllowanceController::class);
+Route::resource('deduction', DeductionController::class);
 
 Route::get('/roles',[RolesController::class, 'index']);
 Route::get('/roles/{id}', [RolesController::class, 'show']);

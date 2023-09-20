@@ -26,13 +26,6 @@ class StaffResource extends JsonResource
             'gender' => $this->gender,
             'age' => $this->age,
             'maritalStatus' => $this->maritalStatus,
-            // 'financials' => $this->financials->map(function($financials){
-            //     return [ 
-            //         'basicSalary' => $financials->basicSalary,
-            //         'bankAccount' => $financials->bankAccount,
-            //         'bankName' => $financials->bankName,
-            //         'bankAccountHolderName' => $financials->bankAccountHolderName,
-            //     ];}),
             'financials' => $this->financials->map(function ($financials) {
                 return [
                     'basicSalary' => $financials->basicSalary,

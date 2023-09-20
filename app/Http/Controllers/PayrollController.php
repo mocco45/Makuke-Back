@@ -34,6 +34,7 @@ class PayrollController extends Controller
                 'on_charge' => auth()->user()->id,
                 'user_id' => $user->id,
             ]);
+            
             $isNull = Accomodations::where('user_id', $user->id)->first();
 
             if($isNull){

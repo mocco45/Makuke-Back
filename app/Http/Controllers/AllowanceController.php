@@ -10,7 +10,7 @@ class AllowanceController extends Controller
     public function index(){
         $allowance_list = Allowance::all();
 
-        return response()->json(['All allowances' => $allowance_list]);
+        return response()->json( $allowance_list);
     }
 
     public function store(Request $request){

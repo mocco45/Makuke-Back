@@ -10,12 +10,12 @@ class DeductionController extends Controller
     public function index(){
         $deduction_list = Deduction::all();
 
-        return response()->json(['All Deductions' => $deduction_list]);
+        return response()->json( $deduction_list);
     }
 
     public function store(Request $request){
         Deduction::create([
-            'name' => $request->deduction
+            'name' => $request->name
         ]);
 
         return response()->json(['Deduction created successfully']);
