@@ -14,6 +14,6 @@ class Category extends Model
     public $table = 'category';
 
     public function customer_loan(){
-        return $this->belongsTo(Customer_Loan::class);
+        return $this->hasOne(Customer_Loan::class, 'id', 'customer_loan_id');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\loanResource;
 use App\Models\Customer_Loan;
 use App\Models\Customers;
 use App\Models\rejected_reasons;
@@ -33,7 +34,7 @@ class ApprovalController extends Controller
             $pending = Customer_Loan::where('status','manager_approved')->get();
         }
         
-        return response()->json($pending);
+        return loanResource::collection($pending);
     }
 
     public function acceptupdate(Customer_Loan $customer_Loan){
