@@ -133,6 +133,8 @@ Route::middleware(['auth:sanctum', 'role:admin,Cashier'])->group(function(){
 
 Route::resource('allowance', AllowanceController::class);
 Route::resource('deduction', DeductionController::class);
+Route::resource('income', IncomeController::class);
+Route::resource('expense', ExpenseController::class);
 
 Route::get('/roles',[RolesController::class, 'index']);
 Route::get('/roles/{id}', [RolesController::class, 'show']);
