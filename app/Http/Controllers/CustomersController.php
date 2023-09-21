@@ -20,9 +20,24 @@ class CustomersController extends Controller
         return response()->json($customers);
     }
 
+    // public function index(){
+    //     $customers = Customers::with('customer_loan', 'customer_loan.customer_guarantee', 'customer_loan.referee', 'customer_loan.referee.referee_guarantee')->get();
+        
+    //     // Modify the data structure to convert customer_guarantee to an object for each customer_loan
+    //     $customers->transform(function ($customer) {
+    //         $customer->customer_loan->each(function ($loan) {
+    //             $loan->customer_guarantee = $loan->customer_guarantee->first();
+    //         });
+    //         return $customer;
+    //     });
+    
+    //     return response()->json($customers);
+    // }
+    
+
     public function show(Customers $customer){
         
-        $customer_find = Customers::find($customer->id);
+        $customer_find = Customers::find($customer->id)::with('customer_loan', 'customer_loan.customer_guarantee', 'customer_loan.referee', 'customer_loan.referee.referee_guarantee')->first();;
 
         return response()->json($customer_find);
     }
