@@ -18,6 +18,8 @@ class loanResource extends JsonResource
             'customer' => $this->customer->firstName.' '. $this->customer->lastName,
             'category' => $this->category->name,
             'loan_amount'=> $this->amount,
+            'loan_duration'=> $this->repayment_time,
+            'created_at'=> $this->created_at,
         ];
     }
 }

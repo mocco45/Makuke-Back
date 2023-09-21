@@ -47,6 +47,7 @@ class CustomersController extends Controller
             $uploadedFile = $request->file('customerImage');
 
             $customerFileName = time() . '.' . $uploadedFile->getClientOriginalExtension();
+            
             $uploadedFile->storeAs('public/images/customers', $customerFileName);
         }
                 
