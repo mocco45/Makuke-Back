@@ -36,6 +36,18 @@ class ApprovalController extends Controller
         
         return loanResource::collection($pending);
     }
+    
+    public function showPending(Customer_Loan $customer_Loan){
+        if(Auth::user()->role_id == 3 || Auth::user()->role_id == 1){
+
+            $pending = Customer_Loan::find($customer_Loan->id)::where('status','pending')->first();
+            
+        }elseif(Auth::user()->role_id == 2 || Auth::user()->role_id == 1){
+            $pending = Customer_Loan::find($customer_Loan->id)::where('status','manager_approved')->first();
+        }
+        
+        return new loanResource($pending);
+    }
 
     public function acceptupdate(Customer_Loan $customer_Loan){
         $loan = Customer_Loan::find($customer_Loan)->first();

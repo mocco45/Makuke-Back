@@ -69,6 +69,7 @@ Route::middleware(['auth:sanctum', 'role:Manager,CEO,admin'])->group(function(){
         Route::post('/accept/{customer_Loan}', 'acceptupdate');
         Route::post('/reject/{customer_Loan}', 'rejectupdate');
         Route::get('/loan-pending', 'pending');
+        Route::get('/loan-pending/{customer_Loan}', 'showPending');
         Route::get('/loan-approval', 'index');
     });
 });
