@@ -16,25 +16,26 @@ class loanResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            // 'customerId' => $this->customer->id,
-            // 'customer' => $this->customer->firstName.' '. $this->customer->lastName,
-            // 'gender' => $this->customer->gender,
-            // 'email' => $this->customer->email,
-            // 'phone' => $this->customer->phone,
-            // 'region' => $this->customer->region,
-            // 'district' => $this->customer->district,
-            // 'street' => $this->customer->street,
-
             'category' => $this->category->name,
-            'loan_amount'=> $this->amount,
-            'status'=> $this->status,
-            'interest_rate'=> $this->interest_rate,
-            'loan_duration'=> $this->repayment_time,
-            'created_at'=> $this->created_at,
+            'loan_amount' => $this->amount,
+            'status' => $this->status,
+            'interest_rate' => $this->interest_rate,
+            'loan_duration' => $this->repayment_time,
+            'created_at' => $this->created_at,
+            'customer_name' => $this->customer->firstName.' '. $this->customer->lastName,
+
             'customer' => $this->customer,
             'customer_property' => $this->customer_guarantee,
             'referee' => $this->referee,
-            
+            'referee_guarantee' => $this->referee->map(function ($referee_guarantee) {
+                return [
+                    'name' => $referee_guarantee->property_name,
+                    'value' => $referee_guarantee->value,
+                    'address' => $referee_guarantee->property_address,
+                    'photo' => $referee_guarantee->photo,
+                ];
+            }), 'public/images/staffs'
+
         ];
     }
 }

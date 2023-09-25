@@ -54,14 +54,14 @@ class ApprovalController extends Controller
         
         if (Auth::user()->role_id == 2 || Auth::user()->role_id == 1) {
             $loan->update([
-                'status' => 'approved'
+                'status' => 'APPROVED'
             ]);
     
             return response()->json(['Loan Approved']);
         } 
         elseif(Auth::user()->role_id == 3 || Auth::user()->role_id == 1){
             $loan->update([
-                'status' => 'manager_approved'
+                'status' => 'MANAGER_APPROVED'
             ]);
     
             return response()->json(['Manager Approved']);

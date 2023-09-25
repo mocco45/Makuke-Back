@@ -57,8 +57,6 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 
 Route::post('/logout', [LoginController::class , 'destroy'])->name('logout');
     
-
-
     Route::middleware(['guest'])->group(function(){
         Route::post('/login', [LoginController::class, 'login'])->name('login');
     }); 
