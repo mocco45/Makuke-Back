@@ -69,6 +69,8 @@ Route::middleware(['auth:sanctum', 'role:Manager,CEO,admin'])->group(function(){
         Route::get('/loan-pending', 'pending');
         Route::get('/loan-pending/{customer_Loan}', 'showPending');
         Route::get('/loan-approval', 'index');
+        Route::get('/reject', 'rejected');
+
     });
 });
 
@@ -109,6 +111,15 @@ Route::middleware(['auth:sanctum', 'role:Loan-Officer,Manager,admin,CEO'])->grou
         Route::get('/customer-edit/{customer}', 'edit');
         Route::post('/customer-update/{customer}', 'update');
         Route::delete('/customer-delete/{customer}', 'destroy');
+    });
+
+    Route::controller(CategoryController::class)->group(function(){
+        Route::get('/category-list', 'index');
+        Route::get('/category/{category}', 'show');
+        Route::get('/category/{category}/edit', 'edit');
+        Route::post('/category/{category}/update', 'update');
+        Route::delete('/category/{category}/delete', 'delete');
+        Route::post('/category/{category}/store', 'store');
     });
 
     Route::controller(CategoryController::class)->group(function(){
