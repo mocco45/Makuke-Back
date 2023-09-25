@@ -68,6 +68,8 @@ Route::middleware(['auth:sanctum', 'role:Manager,CEO,admin'])->group(function(){
         Route::post('/reject/{customer_Loan}', 'rejectupdate');
         Route::get('/pending', 'pending');
         Route::get('/loan-approval', 'index');
+        Route::get('/reject', 'rejected');
+
     });
 });
 
@@ -127,6 +129,7 @@ Route::middleware(['auth:sanctum', 'role:Loan-Officer,Manager,admin,CEO'])->grou
         Route::delete('/category/{category}/delete', 'delete');
         Route::post('/category/{category}/store', 'store');
     });
+
 });
 Route::middleware(['auth:sanctum', 'role:Cashier'])->group(function(){
     Route::controller(PayrollController::class)->group(function(){

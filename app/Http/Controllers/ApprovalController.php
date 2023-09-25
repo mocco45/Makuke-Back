@@ -14,13 +14,12 @@ class ApprovalController extends Controller
 {
     public function index(){
         if(Auth::user()->role_id == 2 || Auth::user()->role_id == 1){
-            $approvals = Customers::with('customer_loan')->get();
+            $approvals = Customer_Loan::with('customer')->get();
     
         return response()->json(['data' => $approvals]);
         
         }elseif(Auth::user()->role_id == 3 || Auth::user()->role_id == 1){
-        $approvals = Customers::with('customer_loan', 'customer_loan.customer_guarantee', 'customer_loan.referee', 'customer_loan.referee.referee_guarantee')->get();
-    
+        $approvals = Customer_Loan::with('customer', 'customer_guarantee', 'referee', 'referee.referee_guarantee')->get();
         return response()->json(['data' => $approvals]);
         }
         
@@ -35,6 +34,19 @@ class ApprovalController extends Controller
         }
         
         return loanResource::collection($pending);
+    }
+
+    public function rejected(){
+        if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
+            $reject = Customer_Loan::where('status','rejected')->with('customer','customer_guarantee', 'referee', 'referee.referee_guarantee', 'rejected_reasons')->get();
+            
+            return response()->json($reject);
+        }
+    }
+
+    public function ongoing(){
+        $loan = Customer_Loan::where('status','approved')->get();
+        return loanResource::collection($loan);
     }
 
     public function acceptupdate(Customer_Loan $customer_Loan){
@@ -67,7 +79,7 @@ class ApprovalController extends Controller
         
         if (Auth::user()->role_id == 1 || Auth::user()->role_id == 2 || Auth::user()->role_id == 3) {
             
-            $valid = $request->validate([
+            $request->validate([
                 'reasons' => 'required|string|max:100'
                 ]);
             $rejects = rejected_reasons::create([
