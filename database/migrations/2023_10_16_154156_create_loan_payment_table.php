@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('customer_loan_id');
             $table->integer('amount');
             $table->string('type');
-            $table->string('payment_method');
+            $table->string('payment_method')->default('cash');
             $table->unsignedBigInteger('request_delay_id')->default(null);
             $table->timestamps();
 

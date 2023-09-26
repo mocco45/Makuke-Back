@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Loan_Payment extends Model
 {
     use HasFactory;
+    public $table = 'loan_payment';
+    protected $fillable = ['customer_loan_id','amount','type'];
 
     public function request_delay(){
         return $this->hasMany(Request_Delay::class);
