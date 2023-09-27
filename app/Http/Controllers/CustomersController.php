@@ -46,10 +46,9 @@ class CustomersController extends Controller
     }
 
     public function store(Request $request){
+        DB::beginTransaction();
 
         try {           
-
-            DB::beginTransaction();
 
             // // Validate the uploaded file
               $request->validate([
@@ -62,7 +61,7 @@ class CustomersController extends Controller
 
             $customerFileName = time() . '.' . $uploadedFile->getClientOriginalExtension();
             
-            $uploadedFile->storeAs('public/images/customers', $customerFileName);
+            $img = $uploadedFile->storeAs('public/images/customers', $customerFileName);
         }
                 
             $customer = Customers::create([
@@ -78,7 +77,7 @@ class CustomersController extends Controller
                     'region' => $request->region,
                     'district' => $request->district,
                     'street' => $request->street,
-                    'photo' => $customerFileName,
+                    'photo' => $img,
                 ]);
 
                 $customer_id = $customer->id;
@@ -113,7 +112,7 @@ class CustomersController extends Controller
             $img = $request->file('image');
             $name = $img->getClientOriginalName();
             $destination = public_path('images/Customer');
-            $img->move($destination, $name);
+            $imgpath = $img->move($destination, $name);
         }
 
         $customers = Customers::find($customer->id);
@@ -130,7 +129,7 @@ class CustomersController extends Controller
                     'region' => $request->region,
                     'district' => $request->district,
                     'street' => $request->street,
-                    'image' => $name,
+                    'image' => $imgpath,
         ]);
     
 

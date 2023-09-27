@@ -37,7 +37,7 @@ class Handler extends ExceptionHandler
                 'errors' => $exception->validator->errors(),
             ], 422);
         }
-
+    
         return parent::render($request, $exception);
     }
 }

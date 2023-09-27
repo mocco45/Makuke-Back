@@ -13,12 +13,15 @@ use App\Http\Controllers\company\IncomeController;
 use App\Http\Controllers\CustomersController;
 use App\Http\Controllers\DeductionController;
 use App\Http\Controllers\ImageUploadController;
+use App\Http\Controllers\LoanPaymentController;
+use App\Http\Controllers\RolesController;
+use App\Http\Controllers\StaffController;
 use App\Http\Controllers\payrol\AllowanceController;
 use App\Http\Controllers\payrol\DeductionsController;
 use App\Http\Controllers\PayrollController;
-use App\Http\Controllers\RolesController;
-use App\Http\Controllers\StaffController;
+
 use App\Models\Board_Member;
+use App\Models\Loan_Payment;
 use App\Models\Payroll;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -145,6 +148,11 @@ Route::resource('allowance', AllowanceController::class);
 Route::resource('deduction', DeductionController::class);
 Route::resource('income', IncomeController::class);
 Route::resource('expense', ExpenseController::class);
+Route::controller(LoanPaymentController::class)->group(function(){
+    Route::post('/payment/{customer_loan}', 'store');
+    Route::get('/payment/{customer_loan}', 'show');
+    Route::get('/payments', 'index');
+});
 
 Route::get('/roles',[RolesController::class, 'index']);
 Route::get('/roles/{id}', [RolesController::class, 'show']);

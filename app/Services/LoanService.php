@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Category;
 use App\Models\Customer_Loan;
+use Illuminate\Support\Facades\Request;
 
 class LoanService 
 {
@@ -27,6 +28,7 @@ class LoanService
 
             $loan = Customer_Loan::create([
                 'amount' => $request->loanAmount,
+                'amount_remain' => $request->loanAmount,
                 'repayment_time' => $category->duration,
                 'interest_rate' => $category->interest,
                 'category_id' => $category->id,

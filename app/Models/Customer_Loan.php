@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,6 +13,11 @@ class Customer_Loan extends Model
     protected $guarded = [];
 
     public $table = 'customer_loan';
+
+    public function calculateDueDate(int $daysToExceed): Carbon
+    {
+        return $this->created_at->addMonths($this->repayment_time)->addDays($daysToExceed);
+    }
 
     public function user(){
         return $this->belongsTo(User::class);
