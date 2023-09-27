@@ -37,11 +37,10 @@ class CustomersController extends Controller
 
     public function show(Customers $customer){
         
-<<<<<<< HEAD
-        $customer_find = Customers::find($customer->id)::with('customer_loan', 'customer_loan.customer_guarantee', 'customer_loan.referee', 'customer_loan.referee.referee_guarantee')->first();;
-=======
+
+        // $customer_find = Customers::find($customer->id)::with('customer_loan', 'customer_loan.customer_guarantee', 'customer_loan.referee', 'customer_loan.referee.referee_guarantee')->first();;
+
         $customer_find = Customers::with('customer_loan', 'customer_loan.customer_guarantee', 'customer_loan.referee', 'customer_loan.referee.referee_guarantee')->find($customer->id);
->>>>>>> 67862c7f24d5f497c17eb193cc4857b544ca742d
 
         return response()->json($customer_find);
     }
