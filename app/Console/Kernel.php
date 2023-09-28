@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\CalculateDueDates;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -10,9 +11,13 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      */
+    protected $commands = [
+        CalculateDueDates::class
+    ];
+
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('loans:calculate-due-dates')->daily();
+        $schedule->command('hellow:world')->everyFiveSeconds();
     }
 
     /**
