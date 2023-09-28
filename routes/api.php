@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Board_MemberController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ChangePassword;
 use App\Http\Controllers\company\ExpenseController;
 use App\Http\Controllers\company\IncomeController;
 
@@ -104,7 +105,7 @@ Route::middleware(['auth:sanctum', 'role:CEO,admin,Manager'])->group(function(){
 });
 
 
-Route::middleware(['auth:sanctum', 'role:Loan-Officer,Manager,admin,CEO'])->group(function(){
+Route::middleware(['auth:sanctum', 'role:Loan Officer,Manager,admin,CEO'])->group(function(){
     Route::controller(CustomersController::class)->group(function(){
         Route::post('/create-customer', 'store');
         Route::get('/customers', 'index');
@@ -147,6 +148,7 @@ Route::controller(LoanPaymentController::class)->group(function(){
     Route::get('/payment/{customer_loan}', 'show');
     Route::get('/payments', 'index');
 });
+Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');
 
 Route::get('/roles',[RolesController::class, 'index']);
 Route::get('/roles/{id}', [RolesController::class, 'show']);

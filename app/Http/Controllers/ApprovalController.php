@@ -44,6 +44,10 @@ class ApprovalController extends Controller
         }
     }
 
+    public function update(Request $request){
+        
+    }
+
     public function ongoing(){
         $loan = Customer_Loan::where('status','approved')->get();
         return loanResource::collection($loan);
