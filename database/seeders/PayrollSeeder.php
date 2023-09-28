@@ -14,7 +14,7 @@ class PayrollSeeder extends Seeder
     public function run(): void
     {
         Payroll::create([
-            'type' => 'Salary',
+            'type' => 'SALARY',
             'amount' => 200000,
         ]);
     }

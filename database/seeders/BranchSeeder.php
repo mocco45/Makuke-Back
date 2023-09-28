@@ -14,22 +14,22 @@ class BranchSeeder extends Seeder
     public function run(): void
     {
         Branch::create([
-            'branch_name' => 'Mbeya Mjini',
-            'branch_address' => 'Mbeya',
+            'branch_name' => 'MBEYA MJINI',
+            'branch_address' => 'MBEYA',
         ]);
         Branch::create([
-            'branch_name' => 'Dodoma',
-            'branch_address' => 'Dodoma Mjini',
+            'branch_name' => 'DODOMA',
+            'branch_address' => 'DODOMA MJINI',
         
         ]);
         Branch::create([
-            'branch_name' => 'Iringa',
-            'branch_address' => 'Iringa Mjini',
+            'branch_name' => 'IRINGA',
+            'branch_address' => 'IRINGA MJINI',
         
         ]);
         Branch::create([
-            'branch_name' => 'Mwanza',
-            'branch_address' => 'Mwanza Mjini',
+            'branch_name' => 'MWANZA',
+            'branch_address' => 'MWANZA MJINI',
         
         ]);
     }

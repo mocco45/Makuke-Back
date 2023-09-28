@@ -90,7 +90,7 @@ class CustomersController extends Controller
             
                 DB::commit();
             
-                return response()->json(['Customer created successfully'],200);
+                return response()->json(['Customer created successfully'] ,200);
     } catch (\Throwable $th) {
         DB::rollBack();
         return response()->json(['Error occured', 'error' => $th->getMessage() .' '.$th],500);

@@ -16,8 +16,8 @@ class FinancialSeeder extends Seeder
         Financials::create([
             'basicSalary' => 100000,
             'bankAccount' => 15712212,
-            'bankAccountHolderName' => 'Test Name',
-            'bankName' => 'crdb',
+            'bankAccountHolderName' => 'TEST HOLDER NAME',
+            'bankName' => 'CRDB',
         ]);
     }
 }

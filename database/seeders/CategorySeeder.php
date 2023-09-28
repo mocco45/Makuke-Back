@@ -14,7 +14,7 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         Category::create([
-            'name' => 'alpha',
+            'name' => 'ALPHA',
             'start_range' => 50000,
             'final_range' => 150000,
             'duration' => 1,
@@ -22,7 +22,7 @@ class CategorySeeder extends Seeder
         ]);
 
         Category::create([
-            'name' => 'beta',
+            'name' => 'BETA',
             'start_range' => 200000,
             'final_range' => 350000,
             'duration' => 1,
@@ -30,7 +30,7 @@ class CategorySeeder extends Seeder
         ]);
 
         Category::create([
-            'name' => 'gamma',
+            'name' => 'GAMMA',
             'start_range' => 400000,
             'final_range' => 550000,
             'duration' => 1,
@@ -38,7 +38,7 @@ class CategorySeeder extends Seeder
         ]);
 
         Category::create([
-            'name' => 'mega',
+            'name' => 'MEGA',
             'start_range' => 600000,
             'final_range' => 750000,
             'duration' => 1,
@@ -46,7 +46,7 @@ class CategorySeeder extends Seeder
         ]);
 
         Category::create([
-            'name' => 'super_1',
+            'name' => 'SUPER_1',
             'start_range' => 800000,
             'final_range' => 900000,
             'duration' => 2,
@@ -54,7 +54,7 @@ class CategorySeeder extends Seeder
         ]);
 
         Category::create([
-            'name' => 'super_2',
+            'name' => 'SUPER_2',
             'start_range' => 950000,
             'final_range' => 1000000,
             'duration' => 3,
