@@ -60,7 +60,6 @@ class CategorySeeder extends Seeder
             'duration' => 3,
             'interest' => 30,
         ]);
-
-       
+      
     }
 }

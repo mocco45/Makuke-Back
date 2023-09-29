@@ -28,7 +28,7 @@ class LoanService
 
             $loan = Customer_Loan::create([
                 'amount' => $request->loanAmount,
-                'amount_remain' => $request->loanAmount,
+                'loan_remain' => $request->loanAmount,
                 'repayment_time' => $category->duration,
                 'interest_rate' => $category->interest,
                 'category_id' => $category->id,

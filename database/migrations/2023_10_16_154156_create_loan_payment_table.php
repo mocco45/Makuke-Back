@@ -17,10 +17,8 @@ return new class extends Migration
             $table->integer('amount');
             $table->string('type');
             $table->string('payment_method')->default('cash');
-            $table->unsignedBigInteger('request_delay_id')->default(null);
             $table->timestamps();
 
-            $table->foreign('request_delay_id')->references('id')->on('request_delay');
             $table->foreign('customer_loan_id')->references('id')->on('customer_loan');
         });
     }

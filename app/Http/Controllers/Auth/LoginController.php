@@ -44,7 +44,6 @@ class LoginController extends Controller
 
     public function destroy(Request $request)
     {
-        dd(auth()->user()->all());
         $request->user()->tokens->each(function ($token, $key) {
             $token->delete();
         });
