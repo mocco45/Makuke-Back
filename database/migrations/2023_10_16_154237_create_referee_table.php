@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('region');
             $table->string('district');
             $table->string('street');
-            $table->string('photo');
+            $table->string('photo_ref');
             $table->integer('phone');
             $table->bigInteger('nida');
             $table->unsignedBigInteger('customer_loan_id');

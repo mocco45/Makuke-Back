@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('referee_id');
             $table->string('property_name');
-            $table->string('photo');
+            $table->string('photo_ref_guarantee');
             $table->integer('value');
             $table->string('region');
             $table->string('district');

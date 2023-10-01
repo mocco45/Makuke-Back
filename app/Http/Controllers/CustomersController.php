@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CustomerRequest;
 use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
+use App\Models\Customer_Loan;
 use App\Models\Customers;
 use App\Models\User;
 use App\Services\LoanService;
@@ -16,14 +17,14 @@ class CustomersController extends Controller
 {
 
     public function index(){
-        $customers = Customers::with('customer_loan', 'customer_loan.customer_guarantee', 'customer_loan.referee', 'customer_loan.referee.referee_guarantee')->get();
+        $customers = Customer_Loan::with('customer', 'customer_guarantee', 'referee', 'referee.referee_guarantee')->get();
         
         return response()->json($customers);
     }
 
     public function show(Customers $customer){
         
-        $customer_find = Customers::with('customer_loan', 'customer_loan.customer_guarantee', 'customer_loan.referee', 'customer_loan.referee.referee_guarantee')->find($customer->id);
+        $customer_find = Customer_Loan::with('customer', 'customer_guarantee', 'referee', 'referee.referee_guarantee')->find($customer->id);
 
         return response()->json($customer_find);
     }
@@ -43,12 +44,12 @@ class CustomersController extends Controller
 
             $customerFileName = time() . '.' . $uploadedFile->getClientOriginalExtension();
             
-            $img = $uploadedFile->storeAs('public/images/customers', $customerFileName);
+            $uploadedFile->storeAs('public/images/customers', $customerFileName);
         }
-        $customerz = User::where('id',$customers->id);
-        if(!$customerz){
+        
+        if($customers == null){
 
-            $customer = Customers::create([
+            $customers = Customers::create([
                     'firstName' => $request->firstName,
                     'lastName' => $request->lastName,
                     'otherName' => $request->otherName,
@@ -61,11 +62,11 @@ class CustomersController extends Controller
                     'region' => $request->region,
                     'district' => $request->district,
                     'street' => $request->street,
-                    'photo' => $img,
+                    'photo' => $customerFileName,
                 ]);
             }
 
-            $customer_id = $customerz !== null ? $customerz->id : $customer->id;
+            $customer_id = $customers->id;
                 
                 $loanServices = app(LoanService::class);
 

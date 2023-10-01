@@ -21,11 +21,15 @@ class CustomerResource extends JsonResource
             'gender' => $this->gender,
             'marital_status' => $this->marital_status,
             'phone' => $this->phone,
+            'nida' => $this->nida,
             'occupation' => $this->occupation,
             'region' => $this->region,
             'district' => $this->district,
             'street' => $this->street,
-            'image' => $this->image,
+            'photo' => asset('storage/app/public/images/customers/'.$this->photo),
+            'photo_ref' => asset('storage/app/public/images/referee/'.$this->photo),
+            'photo_ref_guarantee' => asset('storage/app/public/images/referee-guarantees/'.$this->photo),
+            'photo_customer_guarantee' => asset('storage/app/public/images/customer-guarantees/'.$this->photo),
         ];
     }
 }

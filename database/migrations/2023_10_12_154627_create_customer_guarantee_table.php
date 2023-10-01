@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('customer_guarantee', function (Blueprint $table) {
             $table->id();
             $table->string('property_name');
-            $table->string('photo');
+            $table->string('photo_customer_guarantee');
             $table->integer('value');
             $table->string('region');
             $table->string('district');

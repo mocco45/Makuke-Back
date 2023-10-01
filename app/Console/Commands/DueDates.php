@@ -29,18 +29,17 @@ class DueDates extends Command
     {
         $loans = Customer_Loan::all(); 
         foreach($loans as $loan){
-        
-            // $currentDate = Carbon::now();
             $currentDate = Carbon::now();
+            // $currentDate = Carbon::createFromFormat('Y-m-d H:i:s', '2023-11-03 12:00:00');
             $dueDate = $loan->calculateDueDate(); // Calculate the due date based on your logic
             // Check if the due date has passed
-
             if ($currentDate->greaterThanOrEqualTo($dueDate)) {
                 // Calculate the number of days between the created_at date and the due_date
-                $daysDifference = $loan->created_at->diffInDays($dueDate);
-    
+                $daysDifference = $currentDate->diffInDays($dueDate);
+                       
                 // Check which due date range this loan falls into and execute the corresponding logic
                 if ($daysDifference >= 1 && $daysDifference <= 5) {
+                    
                     $this->executeLogicFor1To5Days($loan);
                 } elseif ($daysDifference >= 6 && $daysDifference <= 10) {
                     $this->executeLogicFor6To10Days($loan);
@@ -56,58 +55,83 @@ class DueDates extends Command
                     $this->executeLogicFor31DaysAndAbove($loan);
                 }
             }
-            else{
-                echo 'due date is not passed';
-            }
         }
     }
 
     private function executeLogicFor1To5Days($loan)
     {
-        
-        $this->info("Loan ID {$loan->id}: Processing for 1-5 days due date range.");
-        
+        if($loan->fine == 0){
+            $amount_remain = $loan->loan_remain * 0.05;
+            
+            $loan->update([
+                'fine' => $amount_remain
+            ]);
+        }
     }
 
     private function executeLogicFor6To10Days($loan)
     {
-        // Logic for loans with 6-10 days due date range
-        $this->info("Loan ID {$loan->id}: Processing for 6-10 days due date range.");
-        // Execute specific logic for this group
+        if($loan->fine == 0){
+            $amount_remain = $loan->loan_remain * 0.10;
+            
+            $loan->update([
+                'fine' => $amount_remain
+            ]);
+        }
     }
 
     private function executeLogicFor11To15Days($loan)
     {
-        // Logic for loans with 11-15 days due date range
-        $this->info("Loan ID {$loan->id}: Processing for 11-15 days due date range.");
-        // Execute specific logic for this group
+        if($loan->fine == 0){
+            $amount_remain = $loan->loan_remain * 0.15;
+            
+            $loan->update([
+                'fine' => $amount_remain
+            ]);
+        }
     }
 
     private function executeLogicFor16To20Days($loan)
     {
-        // Logic for loans with 16-20 days due date range
-        $this->info("Loan ID {$loan->id}: Processing for 16-20 days due date range.");
-        // Execute specific logic for this group
+        if($loan->fine == 0){
+            $amount_remain = $loan->loan_remain * 0.20;
+            
+            $loan->update([
+                'fine' => $amount_remain
+            ]);
+        }
     }
 
     private function executeLogicFor21To25Days($loan)
     {
-        // Logic for loans with 21-25 days due date range
-        $this->info("Loan ID {$loan->id}: Processing for 21-25 days due date range.");
-        // Execute specific logic for this group
+        if($loan->fine == 0){
+            $amount_remain = $loan->loan_remain * 0.25;
+            
+            $loan->update([
+                'fine' => $amount_remain
+            ]);
+        }
     }
 
     private function executeLogicFor26To30Days($loan)
     {
-        // Logic for loans with 26-30 days due date range
-        $this->info("Loan ID {$loan->id}: Processing for 26-30 days due date range.");
-        // Execute specific logic for this group
+        if($loan->fine == 0){
+            $amount_remain = $loan->loan_remain * 0.30;
+            
+            $loan->update([
+                'fine' => $amount_remain
+            ]);
+        }
     }
 
     private function executeLogicFor31DaysAndAbove($loan)
     {
-        // Logic for loans with 31 days and above due date range
-        $this->info("Loan ID {$loan->id}: Processing for 31 days and above due date range.");
-        // Execute specific logic for this group
+        if($loan->fine == 0){
+            $amount_remain = $loan->loan_remain * 0.50;
+            
+            $loan->update([
+                'fine' => $amount_remain
+            ]);
+        }
     }
 }
