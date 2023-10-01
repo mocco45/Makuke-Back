@@ -13,6 +13,11 @@ class Referee_Guarantee extends Model
 
     public $table = 'referee_guarantee';
 
+    public function getPhotoRefGuaranteeAttribute($value){
+        return asset('storage/app/public/images/referee-guarantees/'.$value);
+
+    }
+
     public function referee(){
         return $this->belongsTo(Referee::class);
     }

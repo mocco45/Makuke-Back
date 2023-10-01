@@ -15,4 +15,8 @@ class Customers extends Model
         return $this->hasMany(Customer_Loan::class, 'id', 'customer_loan_id');
     }
 
+    public function getPhotoAttribute($value){
+        return asset('storage/app/public/images/customers/'.$value);
+    }
+
 }

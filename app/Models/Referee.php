@@ -13,6 +13,10 @@ class Referee extends Model
 
     protected $guarded = [];
 
+    public function getPhotoRefAttribute($value){
+        return asset('storage/app/public/images/referee/'.$value);
+    }
+
     public function referee_guarantee(){
         return $this->hasMany(Referee_Guarantee::class);
     }

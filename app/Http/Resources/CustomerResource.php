@@ -25,11 +25,7 @@ class CustomerResource extends JsonResource
             'occupation' => $this->occupation,
             'region' => $this->region,
             'district' => $this->district,
-            'street' => $this->street,
-            'photo' => asset('storage/app/public/images/customers/'.$this->photo),
-            'photo_ref' => asset('storage/app/public/images/referee/'.$this->photo),
-            'photo_ref_guarantee' => asset('storage/app/public/images/referee-guarantees/'.$this->photo),
-            'photo_customer_guarantee' => asset('storage/app/public/images/customer-guarantees/'.$this->photo),
+            'street' => $this->street,            
         ];
     }
 }
