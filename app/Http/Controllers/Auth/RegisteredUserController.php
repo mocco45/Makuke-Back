@@ -119,7 +119,7 @@ class RegisteredUserController extends Controller
     
         // Generate the new staff ID
         $newStaffId = 'M/' . $currentYear . '/' . str_pad($newStaffNumber, 4, '0', STR_PAD_LEFT);
-        dd($newStaffId);
+
         $user = User::create(
          [
             'staff_id' => $newStaffId,

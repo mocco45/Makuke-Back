@@ -12,7 +12,7 @@ class Customers extends Model
     protected $guarded = [];
 
     public function customer_loan(){
-        return $this->hasMany(Customer_Loan::class, 'customer_id');
+        return $this->hasMany(Customer_Loan::class, 'customer_loan_id');
     }
 
     // Accessor method to get the full name

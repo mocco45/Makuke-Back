@@ -26,7 +26,9 @@ class GuaranteeService
             'property_name' => $request->ref_trusteeGuaranteeName,
             'photo' => $imgpath,
             'value' => $request->ref_trusteeGuaranteeValue,
-            'property_address' => $request->ref_trusteeGuaranteeLocation, 
+            'region' => $request->ref_region,
+            'district' => $request->ref_district,
+            'street' => $request->ref_street,
             'referee_id' => $id1
         ]);
 
@@ -34,7 +36,9 @@ class GuaranteeService
             'property_name' => $request->ref2_trusteeGuaranteeName,
             'photo' => $imgpath1,
             'value' => $request->ref2_trusteeGuaranteeValue,
-            'property_address' => $request->ref2_trusteeGuaranteeLocation, 
+            'region' => $request->ref2_region,
+            'district' => $request->ref2_district,
+            'street' => $request->ref2_street, 
             'referee_id' => $id2
         ]);
     }
@@ -52,7 +56,9 @@ class GuaranteeService
             'property_name' => $request->customerGuaranteeName,
             'photo' => $imgpath,
             'value' => $request->customerGuaranteeValue,
-            'property_address' => $request->customerGuaranteeLocation,
+            'region' => $request->ref_region,
+            'district' => $request->ref_district,
+            'street' => $request->ref_street,
             'customer_loan_id' => $id
         ]);
     }

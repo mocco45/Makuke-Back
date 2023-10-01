@@ -17,10 +17,14 @@ return new class extends Migration
             $table->integer('repayment_time');
             $table->integer('interest_rate');
             $table->enum('status', ['pending','approved','rejected','manager_approved'])->default('pending');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('branch_id');
             $table->unsignedBigInteger('customer_id');
-            $table->foreign('customer_id')->references('id')->on('customers');
             $table->unsignedBigInteger('category_id');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('branch_id')->references('id')->on('branch');
             $table->foreign('category_id')->references('id')->on('category');
+            $table->foreign('customer_id')->references('id')->on('customers');
             $table->timestamps();
         });
     }

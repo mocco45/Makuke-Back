@@ -14,6 +14,12 @@ class Branch extends Model
     protected $guarded = [];
 
     public function user(){
-        return $this->belongsTo(User::class);
+        return $this->hasMany(User::class);
     }
+
+    public function customer_loan(){
+        return $this->hasMany(Customer_Loan::class);
+    }
+
+    
 }
