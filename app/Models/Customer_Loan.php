@@ -14,13 +14,24 @@ class Customer_Loan extends Model
 
     public $table = 'customer_loan';
 
-    public function calculateDueDate(int $daysToExceed): Carbon
+    public function calculateDueDate()
     {
-        return $this->created_at->addMonths($this->repayment_time)->addDays($daysToExceed);
+        // Calculate the due date based on the created_at date and your business logic
+        $dueDate = $this->created_at->copy(); // Make a copy of created_at to avoid modifying the original date
+
+        // Add the number of months specified in the repayment_time attribute
+        $dueDate->addMonths($this->repayment_time);
+
+        // Return the calculated due date
+        return $dueDate;
     }
 
     public function user(){
         return $this->belongsTo(User::class);
+    }
+
+    public function branch(){
+        return $this->belongsTo(Branch::class);
     }
 
     public function referee(){

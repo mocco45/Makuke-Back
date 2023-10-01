@@ -31,6 +31,8 @@ class LoanService
                 'loan_remain' => $request->loanAmount,
                 'repayment_time' => $category->duration,
                 'interest_rate' => $category->interest,
+                'user_id' => auth()->user()->id,
+                'branch_id' => auth()->user()->branch_id,
                 'category_id' => $category->id,
                 'customer_id' => $customer_id
             ]);

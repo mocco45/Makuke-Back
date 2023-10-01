@@ -16,7 +16,9 @@ return new class extends Migration
             $table->string('property_name');
             $table->string('photo');
             $table->integer('value');
-            $table->string('property_address');
+            $table->string('region');
+            $table->string('district');
+            $table->string('street');
             $table->unsignedBigInteger('customer_loan_id');
             $table->foreign('customer_loan_id')->references('id')->on('customer_loan');
             $table->timestamps();

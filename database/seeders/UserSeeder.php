@@ -29,6 +29,7 @@ class UserSeeder extends Seeder
             'role_id' => 1,
             'branch_id' => 1,
             'financials_id' => 1,
+            'staff_id' => 'M/2023/0002'
          ]);
         User::create([
             'firstName' => 'ceo',
@@ -45,6 +46,8 @@ class UserSeeder extends Seeder
             'role_id' => 2,
             'branch_id' => 1,
             'financials_id' => 1,
+            'staff_id' => 'M/2023/0001'
+
          ]);
         User::create([
             'firstName' => 'manager',
@@ -61,6 +64,8 @@ class UserSeeder extends Seeder
             'role_id' => 3,
             'branch_id' => 1,
             'financials_id' => 1,
+            'staff_id' => 'M/2023/0003'
+
          ]);
         User::create([
             'firstName' => 'loanofficer',
@@ -77,6 +82,8 @@ class UserSeeder extends Seeder
             'role_id' => 4,
             'branch_id' => 1,
             'financials_id' => 1,
+            'staff_id' => 'M/2023/0004'
+
          ]);
         User::create([
             'firstName' => 'cashier',
@@ -93,6 +100,8 @@ class UserSeeder extends Seeder
             'role_id' => 5,
             'branch_id' => 1,
             'financials_id' => 1,
+            'staff_id' => 'M/2023/0005'
+
          ]);
     }
 }

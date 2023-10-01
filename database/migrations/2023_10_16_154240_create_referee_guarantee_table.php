@@ -17,7 +17,9 @@ return new class extends Migration
             $table->string('property_name');
             $table->string('photo');
             $table->integer('value');
-            $table->string('property_address');
+            $table->string('region');
+            $table->string('district');
+            $table->string('street');
             $table->timestamps();
 
             $table->foreign('referee_id')->references('id')->on('referee');
