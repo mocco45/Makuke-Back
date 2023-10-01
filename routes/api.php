@@ -110,7 +110,7 @@ Route::middleware(['auth:sanctum', 'role:CEO,admin,Manager'])->group(function(){
 
 Route::middleware(['auth:sanctum', 'role:Loan Officer,Manager,admin,CEO'])->group(function(){
     Route::controller(CustomersController::class)->group(function(){
-        Route::post('/create-customer', 'store');
+        Route::post('/create-customer/{customers?}', 'store');
         Route::get('/customers', 'index');
         Route::get('/customer/{customer}', 'show');
         Route::get('/customer-edit/{customer}', 'edit');
@@ -124,17 +124,18 @@ Route::middleware(['auth:sanctum', 'role:Loan Officer,Manager,admin,CEO'])->grou
         Route::get('/category/{category}/edit', 'edit');
         Route::post('/category/{category}/update', 'update');
         Route::delete('/category/{category}/delete', 'delete');
-        Route::post('/category/{category}/store', 'store');
+        // Route::post('/category/{category}/store', 'store');
+        Route::post('/category', 'store');
     });
 
-    Route::controller(CategoryController::class)->group(function(){
-        Route::get('/category-list', 'index');
-        Route::get('/category/{category}', 'show');
-        Route::get('/category/{category}/edit', 'edit');
-        Route::post('/category/{category}/update', 'update');
-        Route::delete('/category/{category}/delete', 'delete');
-        Route::post('/category/{category}/store', 'store');
-    });
+    // Route::controller(CategoryController::class)->group(function(){
+    //     Route::get('/category-list', 'index');
+    //     Route::get('/category/{category}', 'show');
+    //     Route::get('/category/{category}/edit', 'edit');
+    //     Route::post('/category/{category}/update', 'update');
+    //     Route::delete('/category/{category}/delete', 'delete');
+    //     Route::post('/category/{category}/store', 'store');
+    // });
 
 });
 Route::middleware(['auth:sanctum', 'role:admin,Cashier'])->group(function(){

@@ -6,6 +6,7 @@ use App\Http\Requests\CustomerRequest;
 use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
 use App\Models\Customers;
+use App\Models\User;
 use App\Services\LoanService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -45,16 +46,15 @@ class CustomersController extends Controller
         return response()->json($customer_find);
     }
 
-    public function store(Request $request){
+    public function store(Request $request, Customers $customers = null){
         DB::beginTransaction();
 
         try {           
 
-            // // Validate the uploaded file
               $request->validate([
                 'customerImage' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust validation rules as needed
             ]); 
-            // Store the uploaded file
+            
           
         if ($request->hasFile('customerImage')) {
             $uploadedFile = $request->file('customerImage');
@@ -63,7 +63,9 @@ class CustomersController extends Controller
             
             $img = $uploadedFile->storeAs('public/images/customers', $customerFileName);
         }
-                
+        $customerz = User::where('id',$customers->id);
+        if(!$customerz){
+
             $customer = Customers::create([
                     'firstName' => $request->firstName,
                     'lastName' => $request->lastName,
@@ -79,8 +81,9 @@ class CustomersController extends Controller
                     'street' => $request->street,
                     'photo' => $img,
                 ]);
+            }
 
-                $customer_id = $customer->id;
+            $customer_id = $customerz !== null ? $customerz->id : $customer->id;
                 
                 $loanServices = app(LoanService::class);
 

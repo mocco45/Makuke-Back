@@ -10,6 +10,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 
@@ -109,8 +110,19 @@ class RegisteredUserController extends Controller
 
         $financial_id = $financial->id; 
 
+        $currentYear = date('Y');
+        $lastStaffId = DB::table('users')->latest('id')->value('staff_id');
+        $lastStaffNumber = intval(substr($lastStaffId, -4)); // Extract the last 4 digits as a number
+    
+        // Increment the staff number
+        $newStaffNumber = $lastStaffNumber + 1;
+    
+        // Generate the new staff ID
+        $newStaffId = 'M/' . $currentYear . '/' . str_pad($newStaffNumber, 4, '0', STR_PAD_LEFT);
+        dd($newStaffId);
         $user = User::create(
          [
+            'staff_id' => $newStaffId,
             'firstName' => $request->firstName,
             'lastName' => $request->lastName,
             'phone' => $request->phone,
