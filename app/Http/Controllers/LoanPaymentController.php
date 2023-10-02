@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PaymentRequest;
 use App\Models\Customer_Loan;
 use App\Models\Loan_Payment;
-use Illuminate\Http\Request;
+
 
 class LoanPaymentController extends Controller
 {
