@@ -131,7 +131,7 @@ Route::controller(\App\Http\Controllers\LoanPaymentController::class)->group(fun
 });
 Route::post('/change-password', [\App\Http\Controllers\Auth\ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');
 
-Route::middleware('auth:sanctum','role:CEO')->controller(\App\Http\Controllers\CEO\StaffController::class)->group(function(){
+Route::middleware('auth:sanctum')->controller(\App\Http\Controllers\CEO\StaffController::class)->group(function(){
     Route::get('/allstaff/{branch}', 'index');
 }); 
 Route::get('/roles',[\App\Http\Controllers\RolesController::class, 'index']);

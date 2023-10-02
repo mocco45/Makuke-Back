@@ -37,11 +37,7 @@ class StaffResource extends JsonResource
             'role' => $this->role->name,
             'branch' => $this->branch->branch_name,
             'email' => $this->email,
-<<<<<<< HEAD
-            'photo' => asset('storage/images/staffs/' . $this->photo),
-=======
             'photo' => asset('public/images/staffs'. $this->photo),
->>>>>>> 5e9b516b0aafda61d7cf97d7ca04bccfe03e89af
             'created_at' => $this->created_at,
             
         ];
