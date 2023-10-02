@@ -12,7 +12,7 @@ class RefereeService
             if ($request->hasFile('ref_photo')) {
             $uploadedRefFile = $request->file('ref_photo');
             $refImage = time() . '.' . $uploadedRefFile->getClientOriginalExtension();
-            $imgpath1=$uploadedRefFile->storeAs('public/images/referee', $refImage);
+            $uploadedRefFile->storeAs('public/images/referee', $refImage);
             }
             else{
                 
@@ -22,7 +22,7 @@ class RefereeService
             if ($request->hasFile('ref_photo')) {
             $uploadedRef2File = $request->file('ref_photo');
             $ref2Image = time() . '.' . $uploadedRef2File->getClientOriginalExtension();
-            $imgpath=$uploadedRef2File->storeAs('public/images/referee', $ref2Image);
+            $uploadedRef2File->storeAs('public/images/referee', $ref2Image);
             }
             else{
                 return response()->json(['there is error in ref2_photo']);
@@ -37,7 +37,7 @@ class RefereeService
                 'district' => $request->ref_district,
                 'nida' => $request->ref_nida,
                 'street' => $request->ref_street,
-                'photo' => $imgpath1,
+                'photo_ref' => $refImage,
                 'nida' => $request->nida,
                 'phone' => $request->ref_phone,
                 'customer_loan_id' => $cid
@@ -52,7 +52,7 @@ class RefereeService
                 'district' => $request->ref2_district,
                 'nida' => $request->ref2_nida,
                 'street' => $request->ref2_street,
-                'photo' => $imgpath,
+                'photo_ref' => $ref2Image,
                 'nida' => $request->nida,
                 'phone' => $request->ref2_phone,
                 'customer_loan_id' => $cid

@@ -58,9 +58,11 @@ class Board_MemberController extends Controller
             'firstName' => 'required|string',
             'lastName' => 'required|string',
             'gender' => 'required|string|',
-            'phone' => 'required',
-            'email' => 'email|unique:'. Board_Member::class,
-            'address' => 'required|string',
+            'phone' => 'required|numeric',
+            'email' => 'required|string|email|unique:'. Board_Member::class,
+            'region' => 'required|string',
+            'district' => 'required|string',
+            'street' => 'required|string',
             'position' => 'required|string',
             'file' => 'image|mimes:jpeg,png,jpg',
         ]);
@@ -79,7 +81,9 @@ class Board_MemberController extends Controller
                 'gender' => $request->gender,
                 'phone' => $request->phone,
                 'email' => $request->email,
-                'address' => $request->address,
+                'region' => $request->region,
+                'district' => $request->district,
+                'street' => $request->street,
                 'position' => $request->position,
                 'photo' => $memberPhoto,
             ]);
@@ -132,7 +136,9 @@ class Board_MemberController extends Controller
                 'gender' => $request->gender,
                 'phone' => $request->phone,
                 'email' => $request->email,
-                'address' => $request->address,
+                'region' => $request->region,
+                'district' => $request->district,
+                'street' => $request->street,
                 'position' => $request->position,
                 'photo' => $memberPhotoUpdate,
             ]);
@@ -148,7 +154,6 @@ class Board_MemberController extends Controller
         if(Auth::user()->id == $board_member->id){
             return response()->json(['Access Denied'], abort(401));
         }
-
         $boardM = $board_member->delete();
         
         

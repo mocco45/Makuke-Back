@@ -39,9 +39,6 @@ class CustomersController extends Controller
 
     public function show(Customers $customer){
         
-
-        // $customer_find = Customers::find($customer->id)::with('customer_loan', 'customer_loan.customer_guarantee', 'customer_loan.referee', 'customer_loan.referee.referee_guarantee')->first();;
-
         $customer_find = Customer_Loan::with('customer', 'customer_guarantee', 'referee', 'referee.referee_guarantee')->find($customer->id);
 
         return response()->json($customer_find);
@@ -62,8 +59,9 @@ class CustomersController extends Controller
 
             $customerFileName = time() . '.' . $uploadedFile->getClientOriginalExtension();
             
-            $img = $uploadedFile->storeAs('public/images/customers', $customerFileName);
+            $uploadedFile->storeAs('public/images/customers', $customerFileName);
         }
+        
         if($customers == null){
 
             $customers = Customers::create([
@@ -79,11 +77,9 @@ class CustomersController extends Controller
                     'region' => $request->region,
                     'district' => $request->district,
                     'street' => $request->street,
-                    'photo' => $img,
+                    'photo' => $customerFileName,
                 ]);
             }
-
-            // $customerz = User::where('id',$customers->id);
 
             $customer_id = $customers->id;
                 

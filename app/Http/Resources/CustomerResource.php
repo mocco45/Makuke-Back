@@ -24,11 +24,11 @@ class CustomerResource extends JsonResource
             'gender' => $this->gender,
             'marital_status' => $this->marital_status,
             'phone' => $this->phone,
+            'nida' => $this->nida,
             'occupation' => $this->occupation,
             'region' => $this->region,
             'district' => $this->district,
-            'street' => $this->street,
-            'image' => asset('storage/images/customers/' . $this->photo),
+            'street' => $this->street,            
         ];
     }
 }

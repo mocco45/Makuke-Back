@@ -22,7 +22,9 @@ class BoardResource extends JsonResource
             'gender' => $this->gender,
             'phone' => $this->phone,
             'email' => $this->email,
-            'address' => $this->address,
+            'region' => $this->region,
+            'district' => $this->district,
+            'street' => $this->street,
             'position' => $this->position,
             'photo' => asset('storage/images/board-members/' . $this->photo),
         ];
