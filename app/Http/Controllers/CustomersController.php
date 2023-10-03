@@ -44,7 +44,7 @@ class CustomersController extends Controller
         return response()->json($customer_find);
     }
 
-    public function store(Request $request, Customers $customers = null){
+    public function store(Request $request){
         DB::beginTransaction();
 
         try {           
@@ -61,7 +61,8 @@ class CustomersController extends Controller
             
             $uploadedFile->storeAs('public/images/customers', $customerFileName);
         }
-        
+        $customers = $request->customerId;
+
         if($customers == null){
 
             $customers = Customers::create([
@@ -81,7 +82,7 @@ class CustomersController extends Controller
                 ]);
             }
 
-            $customer_id = $customers->id;
+            $customer_id = $customers;
                 
                 $loanServices = app(LoanService::class);
 

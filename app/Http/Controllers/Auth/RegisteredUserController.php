@@ -75,13 +75,13 @@ class RegisteredUserController extends Controller
             'bankAccountHolderName' => ['required', 'string', 'max:255'],
             'bankName' => ['required', 'string'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
-            'file' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+            'photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
             // 'file' => ['nullable|image|mimes:jpeg,png,jpg,gif|max:2048'],
             'password' => ['required'],
         ]);
 
-        if($request->hasFile('file')){
-            $img = $request->file('file');
+        if($request->hasFile('photo')){
+            $img = $request->file('photo');
             $staffFileName = time() . '.' .$img->getClientOriginalExtension();
             $img->storeAs('public/images/staffs', $staffFileName);
 

@@ -33,6 +33,10 @@ class User extends Authenticatable
   
     ];
 
+    // public function getRoleIdAttribute(){
+    //     return $this->role()->name;
+    // }
+
     /**
      * The attributes that should be cast.
      *
