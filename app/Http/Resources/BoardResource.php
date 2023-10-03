@@ -26,7 +26,7 @@ class BoardResource extends JsonResource
             'district' => $this->district,
             'street' => $this->street,
             'position' => $this->position,
-            'photo' => asset('storage/images/board-members/' . $this->photo),
+            'photo' => asset('storage/app/public/images/staffs'. $this->photo),
         ];
     }
 }
