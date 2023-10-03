@@ -83,7 +83,7 @@ Route::middleware(['auth:sanctum', 'role:CEO,admin,Manager'])->group(function(){
 
 Route::middleware(['auth:sanctum', 'role:Loan Officer,Manager,admin,CEO'])->group(function(){
     Route::controller(\App\Http\Controllers\CustomersController::class)->group(function(){
-        Route::post('/create-customer/{customers?}', 'store');
+        Route::post('/create-customer', 'store');
         Route::get('/customers', 'index');
         Route::get('/customer/{customer}', 'show');
         Route::get('/customer-edit/{customer}', 'edit');

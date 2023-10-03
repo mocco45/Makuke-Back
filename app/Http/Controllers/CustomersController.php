@@ -29,27 +29,28 @@ class CustomersController extends Controller
         return response()->json($customer_find);
     }
 
-    public function store(Request $request, Customers $customers = null){
+    public function store(Request $request){
         DB::beginTransaction();
 
         try {           
 
               $request->validate([
-                'customerImage' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust validation rules as needed
+                'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust validation rules as needed
             ]); 
             
           
-        if ($request->hasFile('customerImage')) {
-            $uploadedFile = $request->file('customerImage');
+        if ($request->hasFile('photo')) {
+            $uploadedFile = $request->file('photo');
 
             $customerFileName = time() . '.' . $uploadedFile->getClientOriginalExtension();
             
             $uploadedFile->storeAs('public/images/customers', $customerFileName);
         }
-        
+        $customers = $request->customer_id;
+    
         if($customers == null){
-
-            $customers = Customers::create([
+            
+            $newcustomer = Customers::create([
                     'firstName' => $request->firstName,
                     'lastName' => $request->lastName,
                     'otherName' => $request->otherName,
@@ -64,9 +65,11 @@ class CustomersController extends Controller
                     'street' => $request->street,
                     'photo' => $customerFileName,
                 ]);
-            }
 
-            $customer_id = $customers->id;
+            $customers = $newcustomer->id;
+            }
+            
+            $customer_id = $customers;
                 
                 $loanServices = app(LoanService::class);
 
