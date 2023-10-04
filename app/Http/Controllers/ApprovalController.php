@@ -51,14 +51,19 @@ class ApprovalController extends Controller
     }
 
     public function acceptupdate(Customer_Loan $customer_Loan){
-        $loan = Customer_Loan::find($customer_Loan)->first();
+        $loan = Customer_Loan::find($customer_Loan->id);
         
         if (Auth::user()->role_id == 2 || Auth::user()->role_id == 1) {
-            $loan->update([
-                'status' => 'approved'
-            ]);
-    
-            return response()->json(['Loan Approved']);
+            if($loan->status == 'manager_approved'){
+                $loan->update([
+                    'status' => 'approved'
+                ]);
+
+                return response()->json(['Loan Approved']);
+            }
+            else{
+                return response()->json(['Contact Manager!!']);
+            }
         } 
         elseif(Auth::user()->role_id == 3 || Auth::user()->role_id == 1){
             $loan->update([
