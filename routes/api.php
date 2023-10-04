@@ -135,10 +135,7 @@ Route::post('/change-password', [\App\Http\Controllers\Auth\ChangePassword::clas
 Route::middleware('auth:sanctum')->controller(\App\Http\Controllers\CEO\StaffController::class)->group(function(){
     Route::get('/allstaff/{branch}', 'index');
 }); 
-// Route::middleware('auth:sanctum')->controller(\App\Http\Controllers\CEO\StaffController::class)->group(function(){
-//     Route::get('/allstaff/{branch}', 'index');
-// }); 
-
+Route::get('/report', [\App\Http\Controllers\ReportController::class, 'show']);
 Route::get('/roles',[\App\Http\Controllers\RolesController::class, 'index']);
 Route::get('/roles/{id}', [\App\Http\Controllers\RolesController::class, 'show']);
 

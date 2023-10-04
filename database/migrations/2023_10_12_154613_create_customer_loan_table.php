@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('repayment_time');
             $table->integer('interest_rate');
             $table->enum('status', ['pending','approved','rejected','manager_approved'])->default('pending');
+            $table->enum('payment_status', ['complete','stilled','ongoing','overpaid'])->default('stilled');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('branch_id');
             $table->unsignedBigInteger('customer_id');

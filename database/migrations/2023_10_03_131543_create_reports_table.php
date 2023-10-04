@@ -11,14 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('loan_payment', function (Blueprint $table) {
+        Schema::create('reports', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('customer_loan_id');
-            $table->integer('amount');
-            $table->string('type');
-            $table->string('payment_method')->default('cash');
+            $table->string('name');
             $table->timestamps();
-            $table->foreign('customer_loan_id')->references('id')->on('customer_loan');
         });
     }
 
@@ -27,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('loan_payment');
+        Schema::dropIfExists('reports');
     }
 };
