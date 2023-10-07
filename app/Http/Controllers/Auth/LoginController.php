@@ -33,6 +33,11 @@ class LoginController extends Controller
         $user = User::where('email', $request->email)->first();
         $token = $user->createToken('auth-token')->plainTextToken;
         
+        if(auth()->attempt($credentials)){
+            $user->update([
+                'status' => true
+            ]);
+        }
 
         return response()->json([
             'access_token' => $token,
@@ -45,9 +50,17 @@ class LoginController extends Controller
     public function destroy(Request $request)
     {
         
+        if(auth()->user()){
+            $user = User::where('id', auth()->user()->id);
+            $user->update([
+                'status' => false
+            ]);
+
+        }
         $request->user()->tokens->each(function ($token) {
             $token->delete();
         });
+        
 
         return response()->json(['message' => 'Successfully logged out']);
     }

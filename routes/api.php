@@ -32,7 +32,7 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
+Route::get('/dashboard', [\App\Http\Controllers\Auth\DashboardController::class, 'index'])->middleware(['auth:sanctum']);
 
 Route::post('/logout', [\App\Http\Controllers\Auth\LoginController::class , 'destroy'])->middleware(['auth:sanctum'])->name('logout');
     
@@ -138,5 +138,3 @@ Route::middleware('auth:sanctum')->controller(\App\Http\Controllers\CEO\StaffCon
 Route::get('/report', [\App\Http\Controllers\ReportController::class, 'show']);
 Route::get('/roles',[\App\Http\Controllers\RolesController::class, 'index']);
 Route::get('/roles/{id}', [\App\Http\Controllers\RolesController::class, 'show']);
-
-

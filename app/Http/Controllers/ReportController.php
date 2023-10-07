@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class ReportController extends Controller
 {
     public function show(Request $request){
-        dd($request->id);
+        
         if($request->reportId == 1){
             $allCustomers = Customers::count();
             $approved_Loan = Customer_Loan::where('status','approved')->count();

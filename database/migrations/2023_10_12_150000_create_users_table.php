@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('district');
             $table->string('region');
             $table->integer('age');
+            $table->boolean('status')->default(false);
             $table->unsignedBigInteger('role_id');
             $table->unsignedBigInteger('branch_id');
             $table->unsignedBigInteger('financials_id');

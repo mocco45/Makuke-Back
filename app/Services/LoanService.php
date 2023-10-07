@@ -40,7 +40,7 @@ class LoanService
             $customerLoan_id = app(RefereeService::class);
             $customerLoan_id->store($request,$cid);
 
-            $principal = $request->amount;
+            $principal = $request->loanAmount;
         $interestRate = $category->interest;
         $repaymentTime = $category->duration;
 
