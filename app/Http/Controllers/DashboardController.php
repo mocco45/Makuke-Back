@@ -17,7 +17,6 @@ class DashboardController extends Controller
         $Total_loan = Customer_Loan::sum('amount');
         $Loan_repaid = Loan_Payment::sum('amount');
 
-        $z = Customer_Loan::where('status','approved')->with('category')->count();
         $Loans = Customer_Loan::whereHas('category', function ($query) {
             $query->where('status', 'approved');
         })
@@ -34,10 +33,8 @@ class DashboardController extends Controller
                 'count' => $loanCount,
             ];
         });
-        
-        return response()->json($Loans);
 
-        // return response()->json(['status' => $status, 'ongoingLoan' => $ongoing_Loan, 'approvedLoan' => $approved_Loan, 'totalLoan' => $Total_loan, 'repaidLoan' => $Loan_repaid]);
+        return response()->json(['status' => $status, 'ongoingLoan' => $ongoing_Loan, 'approvedLoan' => $approved_Loan, 'totalLoan' => $Total_loan, 'repaidLoan' => $Loan_repaid, 'loansCategory' => $Loans]);
 
     }
 }
