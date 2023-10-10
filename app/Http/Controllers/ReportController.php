@@ -62,22 +62,24 @@ class ReportController extends Controller
         }elseif($request->reportId == 4){
 
             $approved_Loan = Customer_Loan::where('status','approved')->count();
-            $Loans = Customer_Loan::where('status','approved')->with('category')->get();
-            foreach($Loans as $loan){
-                $categoryName = $loan->name;
-                $start = $loan->start_range;
-                $final = $loan->final_range;
-            }
+            $Loans = Customer_Loan::whereHas('category', function ($query) {
+                $query->where('status', 'approved');
+            })
+            ->get()
+            ->groupBy('category.name')
+            ->map(function ($loans) {
+                $category = $loans->first()->category; // Get the category from the first loan in the group
+                $loanCount = $loans->count();
+        
+                return [
+                    'categoryName' => $category->name,
+                    'start_range' => $category->start_range,
+                    'final_range' => $category->final_range,
+                    'count' => $loanCount,
+                ];
+            });
             
-            return response()->json([
-                'categoryName' => $categoryName,
-                'start_range' => $start,
-                'final_range' => $final
-            ]);
-
-        }elseif($request->id == 6){
-
-        }elseif($request->id == 7){
+            return response()->json($Loans);
 
         }
     }

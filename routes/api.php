@@ -32,7 +32,7 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/dashboard', [\App\Http\Controllers\Auth\DashboardController::class, 'index'])->middleware(['auth:sanctum']);
+Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index']);
 
 Route::post('/logout', [\App\Http\Controllers\Auth\LoginController::class , 'destroy'])->middleware(['auth:sanctum'])->name('logout');
     

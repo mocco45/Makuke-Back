@@ -39,7 +39,7 @@ class StaffController extends Controller
             'position' => ['required', 'string'],
             'basicSalary' => ['required', 'integer'],
             'bankAccountHolder' => ['required', 'string'],
-            'bankAccountNumber' => ['required', 'integer'],
+            // 'bankAccountNumber' => ['required', 'numeric'],
             'bankName' => ['required', 'string'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', Rules\Password::defaults()],

@@ -19,6 +19,11 @@ return [
         env('APP_URL') ? ','.parse_url(env('APP_URL'), PHP_URL_HOST) : '',
         env('FRONTEND_URL') ? ','.parse_url(env('FRONTEND_URL'), PHP_URL_HOST) : ''
     ))),
+    'expiration' => null, // Token expiration time, configure as needed
+    'expiration_ttl' => null, // Token expiration time, configure as needed
+
+
+
 
     /*
     |--------------------------------------------------------------------------

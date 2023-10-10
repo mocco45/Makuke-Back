@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Models\Category;
 use App\Models\Customer_Loan;
-use Illuminate\Support\Facades\Request;
 
 class LoanService 
 {

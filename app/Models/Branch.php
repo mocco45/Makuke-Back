@@ -17,6 +17,15 @@ class Branch extends Model
         return $this->hasMany(User::class);
     }
 
+    public function getroleIdAttribute(){
+        if($this->user && $this->user->role){
+            return $this->user->role->name;
+        }
+        else{
+            return 'hellow';
+        }
+    }
+
     public function customer_loan(){
         return $this->hasMany(Customer_Loan::class);
     }
