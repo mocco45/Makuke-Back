@@ -14,12 +14,18 @@ class GuaranteeService
             $refGuaranteeImg = time() . '.' . $uploadedRFile->getClientOriginalExtension();
             $uploadedRFile->storeAs('public/images/referee-guarantees', $refGuaranteeImg);
         }
+        else{
+            echo 'there is error in ref guarantee';
+        }
         
         // Check if the first referee guarantee image was uploaded
         if ($request->hasFile('ref2_trusteeGuaranteeImage')) {
             $uploadedR2File = $request->file('ref2_trusteeGuaranteeImage');
             $ref2GuaranteeImg = time() . '.' . $uploadedR2File->getClientOriginalExtension();
             $uploadedR2File->storeAs('public/images/referee-guarantees', $ref2GuaranteeImg);
+        }
+        else{
+            echo 'there is error in ref2 guarantee';
         }
 
         Referee_Guarantee::create([
@@ -50,6 +56,9 @@ class GuaranteeService
             $customerGuaranteeImage = time() . '.' .$img->getClientOriginalExtension();
             $img->storeAs('public/images/customer-guarantees', $customerGuaranteeImage);
 
+        }
+        else{
+            echo 'there is error in customer guarantee';
         }
 
         Customer_Guarantee::create([

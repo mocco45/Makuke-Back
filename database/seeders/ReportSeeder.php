@@ -17,7 +17,10 @@ class ReportSeeder extends Seeder
         Report::create(['name' => 'Loan Report']);
         Report::create(['name' => 'Monthly Report']);
         Report::create(['name' => 'Loan Product Report']);
-        Report::create(['name' => 'Financial Statement Report']);
+        Report::create(['name' => 'Sales Report']);
+        Report::create(['name' => 'Profit & Loss Report']);
+        Report::create(['name' => 'Expense Report']);
+        Report::create(['name' => 'Revenue Report']);
         
     }
 }

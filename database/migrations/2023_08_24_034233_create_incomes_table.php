@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('incomeName');
             $table->decimal('incomeAmount', 10, 2);
             $table->string('paymentMethod');
+            $table->string('incomeDescription');
             $table->timestamps();
         });
     }

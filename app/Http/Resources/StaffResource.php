@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class StaffResource extends JsonResource
 {
@@ -38,7 +39,8 @@ class StaffResource extends JsonResource
             'role' => $this->role->name,
             'branch' => $this->branch->branch_name,
             'email' => $this->email,
-            'photo' => asset('storage/app/public/images/staffs'. $this->photo),
+            'photo' => asset('public/images/staffs/' . $this->photo),
+            // http://localhost:8000/storage/app/public/images/staffs/1694126032.png
             'created_at' => $this->created_at,
             
         ];

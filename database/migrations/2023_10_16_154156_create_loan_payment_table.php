@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('amount');
             $table->string('type');
             $table->string('payment_method')->default('cash');
+            $table->integer('sales');
             $table->timestamps();
             $table->foreign('customer_loan_id')->references('id')->on('customer_loan');
         });

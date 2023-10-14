@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Category;
 use App\Models\Customer_Loan;
+use App\Models\Income;
 
 class LoanService 
 {
@@ -35,6 +36,17 @@ class LoanService
                 'category_id' => $category->id,
                 'customer_id' => $customer_id
             ]);
+
+            $form_fee = $request->loanAmount * 0.06;
+
+            Income::create([
+                'incomeName' => 'form fee',
+                'incomeDescription' => 'form fee',
+                'incomeAmount' => $form_fee,
+                'paymentMethod' => 'both',
+                'incomeDate' => $loan->created_at,
+            ]);
+            
             $cid = $loan->id;
             $customerLoan_id = app(RefereeService::class);
             $customerLoan_id->store($request,$cid);

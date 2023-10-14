@@ -23,7 +23,7 @@ class PaymentRequest extends FormRequest
     {
         return [
         
-            'amount' => ['required','numeric', 'min_digits:5'],
+            'amount' => ['required','numeric', 'min_digits:3'],
             'type' => ['required','string'],
             // 'amount' => ['numeric', 'min_digits:5'],
         ];

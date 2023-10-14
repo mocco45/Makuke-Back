@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('expenseName');
             $table->decimal('expenseAmount', 10, 2);
             $table->string('paymentMethod');
+            $table->string('expenseDescription');
             $table->timestamps();
         });
     }

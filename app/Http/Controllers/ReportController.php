@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer_Loan;
 use App\Models\Customers;
+use App\Models\Expense;
+use App\Models\Income;
 use App\Models\Loan_Payment;
-use App\Models\Report;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
@@ -79,8 +80,32 @@ class ReportController extends Controller
                 ];
             });
             
-            return response()->json($Loans);
+            return response()->json(['Category loans' => $Loans]);
 
+        }elseif($request->reportId == 5){
+            
+            $sales = Loan_Payment::with(['customer_loan:id,amount,loan_remain,customer_id','customer_loan.customer:id,firstName,lastName'])->get();
+
+            return response()->json(['sales report' => $sales]);
+
+        }elseif($request->reportId == 6){
+            $revenue = Income::all(['incomeName', 'incomeAmount']);
+            $expense = Expense::all(['expenseName', 'expenseAmount']);
+            $revenueSum = Income::sum('incomeAmount');
+            $expenseSum = Expense::sum('expenseAmount');
+
+            $profit = $revenueSum - $expenseSum;
+
+            return response()->json(['revenue' => $revenue, 'expense' => $expense, 'profit' => $profit, 'Total expense' => $expenseSum, 'Total revenue' => $revenueSum]);
+            
+        }elseif($request->reportId == 7){
+            $expenses = Expense::all();
+
+            return response()->json(['expenses' => $expenses]);
+        }elseif($request->reportId == 8){
+            $revenues = Income::all();
+
+            return response()->json(['revenues' => $revenues]);
         }
     }
 

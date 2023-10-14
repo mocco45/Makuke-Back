@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PaymentRequest;
 use App\Models\Customer_Loan;
+use App\Models\Income;
 use App\Models\Loan_Payment;
 
 
@@ -24,11 +25,22 @@ class LoanPaymentController extends Controller
     public function store(PaymentRequest $request, Customer_Loan $customer_loan){
         $data = $request->validated();
         if($customer_loan->status == 'approved'){
+            $principle = $customer_loan->category->interest;
+            $sales = $data['amount'] * ($principle/100);
 
-            Loan_Payment::create([
+            $loanPay = Loan_Payment::create([
                 'customer_loan_id' => $customer_loan->id,
                 'amount' => $data['amount'],
-                'type' => $data['type']
+                'type' => $data['type'],
+                'sales' => $sales,
+            ]);
+
+            Income::create([
+                'incomeName' => 'sales',
+                'incomeDescription' => 'loan sales',
+                'incomeAmount' => $sales,
+                'paymentMethod' => 'both',
+                'incomeDate' => $loanPay->created_at,
             ]);
             
             if($data['type'] == 'fine'){

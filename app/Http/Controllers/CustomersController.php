@@ -17,25 +17,16 @@ class CustomersController extends Controller
 {
 
     public function index(){
-        $customers = Customer_Loan::with('customer', 'customer_guarantee', 'referee', 'referee.referee_guarantee')->get();
         
+        if(auth()->user()->role_id == 4){
+            $customers = Customer_Loan::where('user_id', auth()->user()->id)->with('customer', 'customer_guarantee', 'referee', 'referee.referee_guarantee')->get();
+        }
+        else{
+            $customers = Customer_Loan::with('customer', 'customer_guarantee', 'referee', 'referee.referee_guarantee')->get();
+        }
+
         return response()->json($customers);
     }
-
-    // public function index(){
-    //     $customers = Customers::with('customer_loan', 'customer_loan.customer_guarantee', 'customer_loan.referee', 'customer_loan.referee.referee_guarantee')->get();
-        
-    //     // Modify the data structure to convert customer_guarantee to an object for each customer_loan
-    //     $customers->transform(function ($customer) {
-    //         $customer->customer_loan->each(function ($loan) {
-    //             $loan->customer_guarantee = $loan->customer_guarantee->first();
-    //         });
-    //         return $customer;
-    //     });
-    
-    //     return response()->json($customers);
-    // }
-    
 
     public function show(Customers $customer){
         

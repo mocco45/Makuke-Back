@@ -30,8 +30,14 @@ class ExpenseController extends Controller
             'expenseDate' => 'required|date',
         ]);
 
-        Expense::create($request->all());
-        return response()->noContent();
+        Expense::create([
+            'expenseName' => $request->expenseName,
+            'expenseDescription' => $request->expenseDescription,
+            'expenseAmount' => $request->expenseAmount,
+            'paymentMethod' => $request->paymentMethod,
+            'expenseDate' => $request->expenseDate,
+        ]);
+        return response()->json(['Expense Registered successfully']);
     }
 
     /**
@@ -48,17 +54,16 @@ class ExpenseController extends Controller
     public function update(Request $request, Expense $expense)
     {
         $validatedData = $request->validate([
-            'expenseName' => 'required|string|max:255',
+            'expenseName' => 'string|max:255',
             'expenseDescription' => 'nullable|string|max:255',
-            'expenseAmount' => 'required|numeric|min:0',
-            'paymentMethod' => ['required'],
-            // Add more validation rules for other fields if needed
+            'expenseAmount' => 'numeric|min:0',
+            'paymentMethod' => ['nullable'],
+            'expenseDate' => 'nullable'
         ]);
 
-        // Update the expense record with the validated data
         $expense->update($validatedData);
 
-        return response()->noContent();
+        return response()->json(['updated expenses successfully']);
     }
 
     /**
@@ -68,7 +73,7 @@ class ExpenseController extends Controller
     {
         $expense->delete();
 
-        return response()->noContent();
+        return response()->json(['Expense deleted successfully']);
 
     }
 }

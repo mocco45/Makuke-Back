@@ -16,7 +16,6 @@ class IncomeController extends Controller
         $incomes = Income::all();
         return response()->json($incomes);
     }
-
     /**
      * Store a newly created resource in storage.
      */
@@ -30,8 +29,14 @@ class IncomeController extends Controller
             'incomeDate' => 'required|date', 
         ]);
 
-        Income::create($request->all());
-        return response()->noContent();
+        Income::create([
+            'incomeName' => $request->incomeName,
+            'incomeDescription' => $request->incomeDescription,
+            'incomeAmount' => $request->incomeAmount,
+            'paymentMethod' => $request->paymentMethod,
+            'incomeDate' => $request->incomeDate,
+        ]);
+        return response()->json(['Revenue Registered successfully']);
     }
 
     /**
@@ -48,18 +53,18 @@ class IncomeController extends Controller
     public function update(Request $request, Income $income)
     {
         $validatedData = $request->validate([
-            'incomeDate' => 'required',
-            'incomeName' => 'required|string|max:255',
+            'incomeDate' => 'nullable',
+            'incomeName' => 'string|max:255',
             'incomeDescription' => 'nullable|string|max:255',
-            'incomeAmount' => 'required|numeric|min:0',
-            'paymentMethod' => ['required'],
+            'incomeAmount' => 'numeric|min:0',
+            'paymentMethod' => ['nullable'],
             // Add more validation rules for other fields if needed
         ]);
 
         // Update the income record with the validated data
         $income->update($validatedData);
 
-        return response()->noContent();
+        return response()->json(['updated expenses successfully']);
     }
 
     /**
@@ -69,7 +74,7 @@ class IncomeController extends Controller
     {
         $income->delete();
         
-        return response()->noContent();
+        return response()->json(['Revenue deleted successfully']);
 
     }
 }

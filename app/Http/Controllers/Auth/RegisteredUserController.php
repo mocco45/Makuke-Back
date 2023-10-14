@@ -91,15 +91,6 @@ class RegisteredUserController extends Controller
 
         
         // $staffImage = $this->uploadStaffImage($request);rr
-       
-     
-       $userFinancials = Financials::create([
-            'basicSalary' => $request->basicSalary,
-            'bankAccount' => $request->bankAccount,
-            'bankAccountHolderName' => $request->bankAccountHolderName,
-            'bankName' => $request->bankName,
-
-        ]);
 
         $financial = Financials::create([
             'basicSalary' => $request->basicSalary,
@@ -175,16 +166,39 @@ class RegisteredUserController extends Controller
     public function update(Request $request, User $user)
     {
         
-        if($request->hasFile('file')){
-            $img = $request->file('file');
+        if($request->hasFile('photo')){
+            $img = $request->file('photo');
             $staffFileName = time() . '.' .$img->getClientOriginalExtension();
             $img->storeAs('public/images/staffs', $staffFileName);
 
         }
 
-        $data = $user->update($request->all());
+        $data = $user->update([
+            'firstName' => $request->firstName,
+            'lastName' => $request->lastName,
+            'phone' => $request->phone,
+            'street' => $request->street,
+            'district' => $request->district,
+            'region' => $request->region,
+            'gender' => $request->gender,
+            'maritalStatus' => $request->maritalStatus,
+            'email' => $request->email,
+            'age' => $request->age,
+            'photo' => $staffFileName,
+            'password' => Hash::make($request->password),
+            'role_id' => $request->role_id,
+            'branch_id' => $request->branch_id,
+        ]);
+        $final = Financials::find($user->financials_id);
+        
+        $final->update([
+            'basicSalary' => $request->basicSalary,
+            'bankAccount' => $request->bankAccount,
+            'bankAccountHolderName' => $request->bankAccountHolderName,
+            'bankName' => $request->bankName,
+        ]);
 
-        return response($data);
+        return response(['user_update' => $data, 'user_financials' => $final]);
     }
 
     /**

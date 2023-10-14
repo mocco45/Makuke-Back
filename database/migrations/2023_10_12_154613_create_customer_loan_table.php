@@ -24,7 +24,7 @@ return new class extends Migration
             $table->unsignedBigInteger('category_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('branch_id')->references('id')->on('branch');
-            $table->foreign('category_id')->references('id')->on('category');
+            $table->foreign('category_id')->references('id')->on('category')->onDelete('cascade');
             $table->foreign('customer_id')->references('id')->on('customers');
             $table->timestamps();
         });

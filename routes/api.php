@@ -101,27 +101,35 @@ Route::middleware(['auth:sanctum', 'role:Loan Officer,Manager,admin,CEO'])->grou
         Route::get('/category/{category}', 'show');
         Route::get('/category/{category}/edit', 'edit');
         Route::post('/category/{category}/update', 'update');
-        Route::delete('/category/{category}/delete', 'delete');
-        // Route::post('/category/{category}/store', 'store');
-        Route::post('/category', 'store');
-    });
-
-    Route::controller(\App\Http\Controllers\CategoryController::class)->group(function(){
-        Route::get('/category-list', 'index');
-        Route::get('/category/{category}', 'show');
-        Route::get('/category/{category}/edit', 'edit');
-        Route::post('/category/{category}/update', 'update');
-        Route::delete('/category/{category}/delete', 'delete');
+        Route::delete('/category/{category}/delete', 'destroy');
         Route::post('/category', 'store');
     });
 
 });
-Route::middleware(['auth:sanctum', 'role:Cashier'])->group(function(){
+
+Route::middleware(['auth:sanctum', 'role:Cashier,CEO,Manager'])->group(function(){
     Route::controller(\App\Http\Controllers\PayrollController::class)->group(function(){
         Route::post('/user_allowance/{user}', 'allowance_store');
         Route::post('/user_deduction/{user}', 'deduction_store');
         Route::get('/staff', 'index');
     });
+
+    Route::controller(\App\Http\Controllers\company\ExpenseController::class)->group(function(){
+        Route::post('/expense', 'store');
+        Route::get('/expense/{expense}', 'show');
+        Route::get('/expenses', 'index');
+        Route::post('/expense/{expense}', 'update');
+        Route::delete('/expense/{expense}', 'destroy');
+    });
+
+    Route::controller(\App\Http\Controllers\company\IncomeController::class)->group(function(){
+        Route::post('/revenue', 'store');
+        Route::get('/revenue/{income}', 'show');
+        Route::get('/revenues', 'index');
+        Route::post('/revenue/{income}', 'update');
+        Route::delete('/revenue/{income}', 'destroy');
+    });
+
     
 });
 

@@ -8,7 +8,7 @@ class RefereeService
 
     public function store($request, $cid)
     {
-            
+        
             if ($request->hasFile('ref_photo')) {
             $uploadedRefFile = $request->file('ref_photo');
             $refImage = time() . '.' . $uploadedRefFile->getClientOriginalExtension();
@@ -16,7 +16,7 @@ class RefereeService
             }
             else{
                 
-                return response()->json(['there is error in ref_photo']);
+                echo 'there is error in ref_photo';
             }
            
             if ($request->hasFile('ref_photo')) {
@@ -25,9 +25,9 @@ class RefereeService
             $uploadedRef2File->storeAs('public/images/referee', $ref2Image);
             }
             else{
-                return response()->json(['there is error in ref2_photo']);
+                echo 'there is error in ref2_photo';
             }
-
+            
             $Referee1 = [
                 'firstName' => $request->ref_firstName,
                 'lastName' => $request->ref_lastName,
@@ -35,13 +35,13 @@ class RefereeService
                 'occupation' => $request->ref_occupation,
                 'region' => $request->ref_region,
                 'district' => $request->ref_district,
-                'nida' => $request->ref_nida,
                 'street' => $request->ref_street,
                 'photo_ref' => $refImage,
                 'nida' => $request->nida,
                 'phone' => $request->ref_phone,
                 'customer_loan_id' => $cid
             ];
+            
 
             $Referee2 = [
                 'firstName' => $request->ref2_firstName,
@@ -50,7 +50,6 @@ class RefereeService
                 'occupation' => $request->ref2_occupation,
                 'region' => $request->ref2_region,
                 'district' => $request->ref2_district,
-                'nida' => $request->ref2_nida,
                 'street' => $request->ref2_street,
                 'photo_ref' => $ref2Image,
                 'nida' => $request->nida,
@@ -65,8 +64,6 @@ class RefereeService
             $Gservice = app(GuaranteeService::class);
             $Gservice->Rstore($request, $ref1, $ref2);
             $Gservice->Cstore($request, $cid);
-
-            return response()->json(["Referee Created Successfully"]);
 
     }
 }
