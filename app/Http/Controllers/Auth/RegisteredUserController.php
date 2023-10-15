@@ -76,7 +76,7 @@ class RegisteredUserController extends Controller
             'bankName' => ['required', 'string'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
-            // 'file' => ['nullable|image|mimes:jpeg,png,jpg,gif|max:2048'],
+            'username' => ['required', 'string', 'unique:users,username'],
             'password' => ['required'],
         ]);
 
@@ -123,6 +123,7 @@ class RegisteredUserController extends Controller
             'gender' => $request->gender,
             'maritalStatus' => $request->maritalStatus,
             'email' => $request->email,
+            'username' => $request->username,
             'age' => $request->age,
             'photo' => $staffFileName,
             'password' => Hash::make($request->password),
@@ -185,6 +186,7 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'age' => $request->age,
             'photo' => $staffFileName,
+            'username' => $request->username,
             'password' => Hash::make($request->password),
             'role_id' => $request->role_id,
             'branch_id' => $request->branch_id,

@@ -9,14 +9,20 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
+
+    public function username(){
+            return 'username';
+        }
+
+
     public function login(Request $request){
         
         $request->validate([
-            'email' => ['required', 'string', 'email'],
+            'username' => ['required', 'string', 'exists:users,username'],
             'password' => ['required', 'string'],
         ]);
 
-        $credentials = request(['email', 'password']);
+        $credentials = request(['username', 'password']);
 
         if(!auth()->attempt($credentials)){
             return response()->json([
@@ -27,18 +33,14 @@ class LoginController extends Controller
                     ]
                 ]
                     ], status:500);
-
         }
-
-        $user = User::where('email', $request->email)->first();
+        else{
+        $user = User::where('username', $request->username)->first();
         $token = $user->createToken('auth-token')->plainTextToken;
-        
-        if(auth()->attempt($credentials)){
-            $user->update([
+        $user->update([
                 'status' => true
             ]);
         }
-
         return response()->json([
             'access_token' => $token,
             'user' => $user,
