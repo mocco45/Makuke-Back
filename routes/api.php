@@ -146,3 +146,6 @@ Route::middleware('auth:sanctum')->controller(\App\Http\Controllers\CEO\StaffCon
 Route::get('/report', [\App\Http\Controllers\ReportController::class, 'show']);
 Route::get('/roles',[\App\Http\Controllers\RolesController::class, 'index']);
 Route::get('/roles/{id}', [\App\Http\Controllers\RolesController::class, 'show']);
+Route::get('/dashboard-lo', [\App\Http\Controllers\DashboardController::class, 'LO_index'])->middleware(['auth:sanctum', 'role:Loan Officer']);
+Route::get('/dashboard-cashier', [\App\Http\Controllers\DashboardController::class, 'cashier_index'])->middleware(['auth:sanctum', 'role:Cashier']);
+

@@ -16,13 +16,8 @@ class Customer_Loan extends Model
 
     public function calculateDueDate()
     {
-        // Calculate the due date based on the created_at date and your business logic
-        $dueDate = $this->created_at->copy(); // Make a copy of created_at to avoid modifying the original date
-
-        // Add the number of months specified in the repayment_time attribute
+        $dueDate = $this->created_at->copy(); 
         $dueDate->addMonths($this->repayment_time);
-
-        // Return the calculated due date
         return $dueDate;
     }
 
