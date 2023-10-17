@@ -16,7 +16,6 @@ class LoginController extends Controller
 
 
     public function login(Request $request){
-        
         $request->validate([
             'username' => ['required', 'string', 'exists:users,username'],
             'password' => ['required', 'string'],
@@ -28,10 +27,8 @@ class LoginController extends Controller
             return response()->json([
                 'message' => 'The given data.',
                 'errors' =>[
-                    'password' => [
-                        'Invalid credentials'
-                    ]
-                ]
+                    'password' => ['Invalid credentials']
+                        ]
                     ], status:500);
         }
         else{
@@ -45,25 +42,20 @@ class LoginController extends Controller
             'access_token' => $token,
             'user' => $user,
         ]);
-
-
     }
 
     public function destroy(Request $request)
-    {
-        
+    {  
         if(auth()->user()){
             $user = User::where('id', auth()->user()->id);
             $user->update([
                 'status' => false
             ]);
-
         }
         $request->user()->tokens->each(function ($token) {
             $token->delete();
         });
         
-
         return response()->json(['message' => 'Successfully logged out']);
     }
 }

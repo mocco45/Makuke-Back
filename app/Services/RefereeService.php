@@ -19,8 +19,8 @@ class RefereeService
                 echo 'there is error in ref_photo';
             }
            
-            if ($request->hasFile('ref_photo')) {
-            $uploadedRef2File = $request->file('ref_photo');
+            if ($request->hasFile('ref2_photo')) {
+            $uploadedRef2File = $request->file('ref2_photo');
             $ref2Image = time() . '.' . $uploadedRef2File->getClientOriginalExtension();
             $uploadedRef2File->storeAs('public/images/referee', $ref2Image);
             }

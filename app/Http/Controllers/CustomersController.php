@@ -2,12 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CustomerRequest;
-use App\Http\Resources\CustomerResource;
-use App\Models\Customer;
 use App\Models\Customer_Loan;
 use App\Models\Customers;
-use App\Models\User;
 use App\Services\LoanService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

@@ -84,7 +84,7 @@ class ReportController extends Controller
 
         }elseif($request->reportId == 5){
             
-            $sales = Loan_Payment::with(['customer_loan:id,amount,loan_remain,customer_id','customer_loan.customer:id,firstName,lastName'])->get();
+            $sales = Loan_Payment::with(['customer_loan:id,amount,loan_remain,customer_id','customer_loan.customer:customer_id,firstName,lastName'])->get();
 
             return response()->json(['sales report' => $sales]);
 
