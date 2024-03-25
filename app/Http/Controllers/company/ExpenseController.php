@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\company;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ExpenseResource;
 use App\Models\Expense;
 use Illuminate\Http\Request;
 
@@ -13,8 +14,9 @@ class ExpenseController extends Controller
      */
     public function index()
     {
-        $expenses = Expense::all();
+        $expenses = Expense::with('payment_method', 'payment_type')->get();
         return response()->json($expenses);
+        // return ExpenseResource::collection($expenses);
     }
 
     /**
@@ -23,19 +25,21 @@ class ExpenseController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'expenseName' => 'required|string|max:255',
             'expenseDescription' => 'nullable|string|max:255',
-            'expenseAmount' => 'required|numeric|min:0',
-            'paymentMethod' => ['required'],
+            'expenseAmount' => 'required',
+            'payment_type_id' => ['required'],
+            'payment_method_id' => ['required'],
             'expenseDate' => 'required|date',
         ]);
 
         Expense::create([
-            'expenseName' => $request->expenseName,
+            'payment_method_id' => $request->payment_method_id,
+            'payment_type_id' => $request->payment_type_id,
+            'account_name_id' => $request->account_name_id,
+            'account_category_id' => $request->account_category_id,
             'expenseDescription' => $request->expenseDescription,
             'expenseAmount' => $request->expenseAmount,
-            'paymentMethod' => $request->paymentMethod,
-            'expenseDate' => $request->expenseDate,
+            'expenseDate' => $request->expenseDate
         ]);
         return response()->json(['Expense Registered successfully']);
     }

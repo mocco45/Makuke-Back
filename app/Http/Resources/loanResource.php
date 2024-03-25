@@ -16,26 +16,31 @@ class loanResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'category' => $this->category->name,
+            'loan_duration' => $this->day->duration,
+            'interest_rate' => $this->interest->percent,
+            'fee' => $this->formfee->percent,
             'loan_amount' => $this->amount,
+            'original_amount' => $this->original,
             'status' => $this->status,
-            'interest_rate' => $this->interest_rate,
-            'loan_duration' => $this->repayment_time,
+            'payment_status' => $this->payment_status,
             'created_at' => $this->created_at,
             'customer_name' => $this->customer->firstName.' '. $this->customer->lastName,
-
+            'loan_remain' => $this->loan_remain,
             'customer' => $this->customer,
             'customer_property' => $this->customer_guarantee,
             'referee' => $this->referee,
             'referee_guarantee' => $this->referee->map(function ($referee_guarantee) {
                 return [
-                    'name' => $referee_guarantee->property_name,
-                    'value' => $referee_guarantee->value,
-                    'address' => $referee_guarantee->property_address,
-                    'photo' => $referee_guarantee->photo,
+                    'name' => $referee_guarantee->referee_guarantee[0]->property_name,
+                    'value' => $referee_guarantee->referee_guarantee[0]->value,
+                    'region' => $referee_guarantee->referee_guarantee[0]->region,
+                    'district' => $referee_guarantee->referee_guarantee[0]->district,
+                    'street' => $referee_guarantee->referee_guarantee[0]->street,
+                    'photo' => $referee_guarantee->referee_guarantee[0]->photo_ref_guarantee,
                 ];
-            }), 'public/images/staffs'
-
+            }),
+            'payment_method' => $this->branch->payment_method,
+            'payment_type' => $this->branch->payment_type,
         ];
     }
 }

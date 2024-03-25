@@ -14,7 +14,7 @@ class Referee_Guarantee extends Model
     public $table = 'referee_guarantee';
 
     public function getPhotoRefGuaranteeAttribute($value){
-        return asset('storage/app/public/images/referee-guarantees/'.$value);
+        return asset('storage/images/referee-guarantees/'.$value);
 
     }
 

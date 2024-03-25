@@ -12,11 +12,11 @@ class Customers extends Model
     protected $guarded = [];
 
     public function customer_loan(){
-        return $this->hasMany(Customer_Loan::class, 'id', 'customer_loan_id');
+        return $this->hasMany(Customer_Loan::class, 'customer_id', 'id');
     }
 
     public function getPhotoAttribute($value){
-        return asset('storage/app/public/images/customers/'.$value);
+        return asset('storage/images/customers/'.$value);
     }
 
 }

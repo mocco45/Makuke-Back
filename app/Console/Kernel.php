@@ -19,6 +19,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         $schedule->command('app:due-dates')->everyFiveSeconds();
+        $schedule->command('close:balance')->dailyAt('20:00');
     }
 
     /**

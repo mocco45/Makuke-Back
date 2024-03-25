@@ -105,6 +105,24 @@ class UserSeeder extends Seeder
             'branch_id' => 1,
             'financials_id' => 1,
             'staff_id' => 'M/2023/0005'
+         ]);
+         User::create([
+            'firstName' => 'Director',
+            'lastName' => 'Director',
+            'email' => 'director@director.com',
+            'username' => 'director225',
+            'password' => Hash::make('password'),
+            'maritalStatus' => 'NOT MARRIED',
+            'phone' => 744611319,
+            'gender' => 'MALE',
+            'street' => 'NYAKAHOJA',
+            'district' => 'MJINI KATI',
+            'region' => 'MWANZA',
+            'age' => 40,
+            'role_id' => 6,
+            'branch_id' => 1,
+            'financials_id' => 1,
+            'staff_id' => 'M/2023/0006'
 
          ]);
     }

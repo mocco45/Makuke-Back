@@ -14,7 +14,7 @@ class Referee extends Model
     protected $guarded = [];
 
     public function getPhotoRefAttribute($value){
-        return asset('storage/app/public/images/referee/'.$value);
+        return asset('storage/images/referee/'.$value);
     }
 
     public function referee_guarantee(){
@@ -26,6 +26,6 @@ class Referee extends Model
     }
 
     public function customer(){
-        return $this->belongsTo(Customer::class);
+        return $this->belongsTo(Customers::class);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -32,14 +33,23 @@ class LoginController extends Controller
                     ], status:500);
         }
         else{
-        $user = User::where('username', $request->username)->first();
-        $token = $user->createToken('auth-token')->plainTextToken;
+        $user = User::whereRaw('BINARY username = ?', $credentials['username'])->first();
+        
+        $token = $user->createToken('auth-token',expiresAt:now()->addMinute(720)->timezone('Africa/Dar_es_Salaam'));
+
+        // Get the plain text token
+        $plainTextToken = $token->plainTextToken;
+
+        // Extract the expiry time
+        $expires = $token->accessToken->expires_at;
+        
         $user->update([
                 'status' => true
             ]);
         }
         return response()->json([
-            'access_token' => $token,
+            'access_token' => $plainTextToken,
+            'expires_at' => $expires->toDateTimeString(),
             'user' => $user,
         ]);
     }

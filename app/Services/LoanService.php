@@ -2,9 +2,11 @@
 
 namespace App\Services;
 
-use App\Models\Category;
 use App\Models\Customer_Loan;
+use App\Models\Days;
+use App\Models\Fee;
 use App\Models\Income;
+use App\Models\Interest;
 
 class LoanService 
 {
@@ -20,56 +22,40 @@ class LoanService
     {
         
         $customer_id = $this->loanee_id;
-        $amount = $request->loanAmount;
-        $category = Category::where('start_range', '<=', $amount)
-                    ->where('final_range', '>=', $amount)->first();
-
-        if($category){
-
+    
+        if($customer_id){
+            $interest = Interest::find($request->interest)->percent;
+            $duration = Days::find($request->duration)->duration;
+            $formfee = Fee::find($request->formfee)->percent;
+            $txtConvert = $request->loanAmount;
+            $principal = (int)str_replace(',', '', $txtConvert);
+            $interestRate = ($interest)/100;
+            $loan_interest = $principal + ($principal * $interestRate);
+            $form_fee = ($formfee * $request->principal)/100;
+            
             $loan = Customer_Loan::create([
-                'amount' => $request->loanAmount,
-                'loan_remain' => $request->loanAmount,
-                'repayment_time' => $category->duration,
-                'interest_rate' => $category->interest,
+                'amount' => $loan_interest,
+                'loan_remain' => $loan_interest,
+                'day_id' => $request->duration,
+                'interest_id' => $request->interest,
+                'formfee_id' => $request->formfee,
                 'user_id' => auth()->user()->id,
                 'branch_id' => auth()->user()->branch_id,
-                'category_id' => $category->id,
-                'customer_id' => $customer_id
+                'customer_id' => $customer_id,
+                'original' => $principal
             ]);
 
-            $form_fee = $request->loanAmount * 0.06;
-
-            Income::create([
-                'incomeName' => 'form fee',
-                'incomeDescription' => 'form fee',
-                'incomeAmount' => $form_fee,
-                'paymentMethod' => 'both',
-                'incomeDate' => $loan->created_at,
-            ]);
+            // Income::create([
+            //     'incomeName' => 'form fee',
+            //     'incomeDescription' => 'form fee',
+            //     'incomeAmount' => $form_fee,
+            //     'paymentMethod' => 'any',
+            //     'incomeDate' => $loan->created_at,
+            // ]);
             
             $cid = $loan->id;
             $customerLoan_id = app(RefereeService::class);
             $customerLoan_id->store($request,$cid);
-
-            $principal = $request->loanAmount;
-        $interestRate = $category->interest;
-        $repaymentTime = $category->duration;
-
-        if($category->name !== 'super'){
-
-             ($principal * $interestRate * pow((1 + $interestRate),$repaymentTime))/(pow((1 + $interestRate),$repaymentTime)-1);
-
-            return "successfully For";
-        }
-        elseif($category->name == 'super'){
-             $principal + ($principal * 0.3);
-
-            return "Successfully For Super Loan";
-        }
-
-        else{
-            return "No Package Selected";
-        }
 
         }
         else{

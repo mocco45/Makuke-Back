@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('category', function (Blueprint $table) {
+        Schema::create('account_names', function (Blueprint $table) {
             $table->id();
+            $table->integer('code');
             $table->string('name');
-            $table->integer('start_range');
-            $table->integer('final_range');
-            $table->integer('duration');
-            $table->integer('interest');
             $table->timestamps();
         });
     }
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('category');
+        Schema::dropIfExists('account_names');
     }
 };

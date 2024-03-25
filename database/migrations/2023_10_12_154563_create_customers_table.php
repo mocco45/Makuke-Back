@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('district');
             $table->string('street');
             $table->string('occupation');
+            $table->string('branch_id');
             $table->timestamps();
         });
     }

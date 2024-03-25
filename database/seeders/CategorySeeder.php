@@ -2,7 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Category;
+
+use App\Models\Days;
+use App\Models\Fee;
+use App\Models\Interest;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,53 +16,39 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        Category::create([
-            'name' => 'ALPHA',
-            'start_range' => 50000,
-            'final_range' => 150000,
-            'duration' => 1,
-            'interest' => 20,
-        ]);
+        $days = [
+            ['duration' => 28],
+            ['duration' => 30],
+            ['duration' => 60],
+            ['duration' => 90],
+            ['duration' => 120],
+            ['duration' => 180]
+        ];
 
-        Category::create([
-            'name' => 'BETA',
-            'start_range' => 200000,
-            'final_range' => 350000,
-            'duration' => 1,
-            'interest' => 20,
-        ]);
+        $interest = [
+            ['percent' => 20],
+            ['percent' => 25],
+            ['percent' => 30]
+        ];
 
-        Category::create([
-            'name' => 'GAMMA',
-            'start_range' => 400000,
-            'final_range' => 550000,
-            'duration' => 1,
-            'interest' => 20,
-        ]);
+        $fee = [
+            ['percent' => 0],
+            ['percent' => 5],
+            ['percent' => 6],
+            ['percent' => 10]
+        ];
 
-        Category::create([
-            'name' => 'MEGA',
-            'start_range' => 600000,
-            'final_range' => 750000,
-            'duration' => 1,
-            'interest' => 20,
-        ]);
+        foreach($days as $day){
+            Days::create($day);
+        }
 
-        Category::create([
-            'name' => 'SUPER_1',
-            'start_range' => 800000,
-            'final_range' => 900000,
-            'duration' => 2,
-            'interest' => 30,
-        ]);
+        foreach($interest as $t){
+            Interest::create($t);
+        }
 
-        Category::create([
-            'name' => 'SUPER_2',
-            'start_range' => 950000,
-            'final_range' => 1000000,
-            'duration' => 3,
-            'interest' => 30,
-        ]);
+        foreach($fee as $f){
+            Fee::create($f);
+        }
       
     }
 }

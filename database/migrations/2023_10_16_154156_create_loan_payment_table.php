@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('customer_loan_id');
             $table->integer('amount');
-            $table->string('type');
-            $table->string('payment_method')->default('cash');
-            $table->integer('sales');
+            $table->unsignedBigInteger('payment_type_id');
+            $table->foreign('payment_type_id')->references('id')->on('payment_type')->onDelete('cascade');
+            $table->unsignedBigInteger('payment_method_id');
+            $table->foreign('payment_method_id')->references('id')->on('payment_method')->onDelete('cascade');
             $table->timestamps();
             $table->foreign('customer_loan_id')->references('id')->on('customer_loan');
         });

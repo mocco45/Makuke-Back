@@ -6,7 +6,7 @@ use App\Http\Requests\PaymentRequest;
 use App\Models\Customer_Loan;
 use App\Models\Income;
 use App\Models\Loan_Payment;
-
+use App\Services\NextSMSService;
 
 class LoanPaymentController extends Controller
 {
@@ -25,41 +25,42 @@ class LoanPaymentController extends Controller
     public function store(PaymentRequest $request, Customer_Loan $customer_loan){
         $data = $request->validated();
         if($customer_loan->status == 'approved'){
-            $principle = $customer_loan->category->interest;
-            $sales = $data['amount'] * ($principle/100);
-
-            $loanPay = Loan_Payment::create([
+            Loan_Payment::create([
                 'customer_loan_id' => $customer_loan->id,
                 'amount' => $data['amount'],
-                'type' => $data['type'],
-                'sales' => $sales,
+                'payment_type_id' => $data['type'],
+                'payment_method_id' => $data['method']
             ]);
-
-            Income::create([
-                'incomeName' => 'sales',
-                'incomeDescription' => 'loan sales',
-                'incomeAmount' => $sales,
-                'paymentMethod' => 'both',
-                'incomeDate' => $loanPay->created_at,
-            ]);
-            
-            if($data['type'] == 'fine'){
-                $payment = $customer_loan->fine - $data['amount'];
-
-            $customer_loan->update([
-                'fine_remain' => $payment
-            ]);
-            }
-            elseif($data['type'] == 'loan'){
             
                 if($customer_loan->amount == $customer_loan->loan_remain){
                     $payment = $customer_loan->amount - $data['amount'];
                 }else{
                     $payment = $customer_loan->loan_remain - $data['amount'];
                 }
-                    $customer_loan->update([
+                    $pay = $customer_loan->update([
                         'loan_remain' => $payment
                     ]);
+                // if($pay){
+                //     try {
+                //         $amountReceived = $data['amount'];
+                //         $recipient = $customer_loan->user->firstName.' '.$customer_loan->user->lastName;
+                //         $loanRemain = $customer_loan->loan_remain;
+                //         $phone = $customer_loan->customer->phone;
+                //         $contact = '0'.$customer_loan->user->phone;
+                //         $sendin = new NextSMSService();
+                //         $message = $sendin->generateReceiptMessage($amountReceived, $recipient, $loanRemain, $contact);
+                
+                //         $response = $sendin->sendSMS($phone, $message);
+
+                //         echo $response;
+                
+                //     } catch (\Throwable $th) {
+                //         return response()->json(['Error occurred', 'error' => $th->getMessage()], 500);
+                //     }
+                // }
+                // else{
+                //     echo 'There is error in sms payment';
+                // }
 
                 if($customer_loan->loan_remain == 0){
                     $customer_loan->update([
@@ -79,8 +80,6 @@ class LoanPaymentController extends Controller
                     ]);       
                 }
 
-            }
-
             return response()->json(["Amount {$data['amount']} paid successfully"]);
     }
     else{
@@ -96,4 +95,5 @@ class LoanPaymentController extends Controller
     public function destroy(){
 
     }
+
 }

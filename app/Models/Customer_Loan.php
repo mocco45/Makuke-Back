@@ -41,15 +41,23 @@ class Customer_Loan extends Model
         return $this->belongsTo(Customers::class);
     }
 
-    public function category(){
-        return $this->belongsTo(Category::class);
-    }
-
     public function customer_guarantee(){
         return $this->hasMany(Customer_Guarantee::class, 'customer_loan_id');
     }
 
     public function rejected_reasons(){
         return $this->hasMany(rejected_reasons::class, 'customer_loan_id');
+    }
+
+    public function day(){
+        return $this->belongsTo(Days::class);
+    }
+
+    public function formfee(){
+        return $this->belongsTo(Fee::class);
+    }
+
+    public function interest(){
+        return $this->belongsTo(Interest::class);
     }
 }

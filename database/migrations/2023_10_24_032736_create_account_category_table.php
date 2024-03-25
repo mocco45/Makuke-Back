@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('incomes', function (Blueprint $table) {
+        Schema::create('account_category', function (Blueprint $table) {
             $table->id();
-            $table->date('incomeDate'); 
-            $table->string('incomeName');
-            $table->decimal('incomeAmount', 10, 2);
-            $table->string('paymentMethod');
-            $table->string('incomeDescription');
+            $table->string('name');
+            $table->integer('code');
             $table->timestamps();
         });
     }
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('incomes');
+        Schema::dropIfExists('account_category');
     }
 };

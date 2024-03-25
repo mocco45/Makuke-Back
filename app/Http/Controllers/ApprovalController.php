@@ -26,34 +26,34 @@ class ApprovalController extends Controller
     }
 
     public function pending(){
-        if(Auth::user()->role_id == 3 || Auth::user()->role_id == 1){
+        if(Auth::user()->role_id == 3 || Auth::user()->role_id == 1 || Auth::user()->role_id == 5){
             $pending = Customer_Loan::where('status','pending')->get();
             
-        }elseif(Auth::user()->role_id == 2 || Auth::user()->role_id == 1){
-            $pending = Customer_Loan::where('status','manager_approved')->get();
+        }elseif(Auth::user()->role_id == 2 || Auth::user()->role_id == 1 || Auth::user()->role_id == 5){
+            $pending = Customer_Loan::where('status','processing')->get();
         }
         
         return loanResource::collection($pending);
     }
     
     public function showPending(Customer_Loan $customer_Loan){
-        if(Auth::user()->role_id == 3 || Auth::user()->role_id == 1){
-
-            $pending = Customer_Loan::find($customer_Loan->id)::where('status','pending')->first();
+        $userRoleId = Auth::user()->role_id;
+    
+        $allowedRoles = [1, 2, 3, 5];
+    
+        if (in_array($userRoleId, $allowedRoles)) {
+            $pending = Customer_Loan::whereIn('status', ['pending', 'processing', 'approved'])
+                ->with('branch.payment_type', 'branch.payment_method')->find($customer_Loan->id);
             
-        }elseif(Auth::user()->role_id == 2 || Auth::user()->role_id == 1){
-            $pending = Customer_Loan::find($customer_Loan->id)::where('status','manager_approved')->first();
         }
         
-        return new loanResource($pending);
+        return new loanResource($pending ?? null);
     }
+    
 
     public function rejected(){
-        if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
-            $reject = Customer_Loan::where('status','rejected')->with('customer','customer_guarantee', 'referee', 'referee.referee_guarantee', 'rejected_reasons')->get();
-            
-            return response()->json($reject);
-        }
+        $reject = Customer_Loan::where('status','rejected')->with('customer','customer_guarantee', 'referee', 'referee.referee_guarantee', 'rejected_reasons')->get();
+        return response()->json($reject);
     }
 
     public function ongoing(){
@@ -64,26 +64,26 @@ class ApprovalController extends Controller
 
     public function acceptupdate(Customer_Loan $customer_Loan){
         $loan = Customer_Loan::find($customer_Loan->id);
-        
-        if (Auth::user()->role_id == 2 || Auth::user()->role_id == 1) {
-            if($loan->status == 'manager_approved'){
+    
+        if (Auth::user()->role_id == 2 || Auth::user()->role_id == 1 || Auth::user()->role_id == 3 ) {
+            if((Auth::user()->role_id == 2 && $loan->status == 'processing') || (Auth::user()->role_id == 3 && $loan->amount <= 500000)){
                 $loan->update([
                     'status' => 'approved'
                 ]);
 
                 return response()->json(['Loan Approved']);
             }
+            elseif(Auth::user()->role_id == 3){
+                $loan->update([
+                    'status' => 'processing'
+                ]);
+
+                return response()->json(['processing']);
+            }
             else{
                 return response()->json(['Contact Manager!!']);
             }
         } 
-        elseif(Auth::user()->role_id == 3 || Auth::user()->role_id == 1){
-            $loan->update([
-                'status' => 'MANAGER_APPROVED'
-            ]);
-    
-            return response()->json(['Manager Approved']);
-        }
         else{
             return response()->json(['Contact Admin']);
         }
@@ -93,8 +93,7 @@ class ApprovalController extends Controller
     public function rejectupdate(Customer_Loan $customer_Loan, Request $request){
         try {
         
-        $loan = Customer_Loan::find($customer_Loan)->first();
-        
+        $loan = Customer_Loan::get()->find($customer_Loan);
         if (Auth::user()->role_id == 1 || Auth::user()->role_id == 2 || Auth::user()->role_id == 3) {
             
             $request->validate([
@@ -102,7 +101,7 @@ class ApprovalController extends Controller
                 ]);
             $rejects = rejected_reasons::create([
                 'reasons' => $request->reasons,
-                'customer_loan_id' => $request->customer_loan_id
+                'customer_loan_id' => $loan->id
             ]);
             $loan->update([
                 'status' => 'rejected'

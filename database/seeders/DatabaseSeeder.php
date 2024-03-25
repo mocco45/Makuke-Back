@@ -5,7 +5,6 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\Branch;
-use App\Models\Category;
 use App\Models\Financials;
 use App\Models\Payroll;
 use App\Models\Role;
@@ -21,12 +20,13 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         //  \App\Models\User::factory(4)->create();
-        
+        $this->call([AccountsSeeder::class]);
         $this->call([BranchSeeder::class]);
         $this->call([CategorySeeder::class]);
         $this->call([FinancialSeeder::class]);
         $this->call([ReportSeeder::class]);
         $this->call([RoleSeeder::class]);
         $this->call([UserSeeder::class]);
+        $this->call([paymentsSeeder::class]);
     }
 }

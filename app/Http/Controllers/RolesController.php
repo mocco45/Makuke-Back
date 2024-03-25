@@ -20,4 +20,8 @@ class RolesController extends Controller
         $role = Role::findOrFail($id);
         return response()->json($role);
     }
+
+    public function access(){
+        
+    }
 }

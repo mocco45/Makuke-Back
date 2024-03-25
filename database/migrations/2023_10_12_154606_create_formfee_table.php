@@ -11,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('expenses', function (Blueprint $table) {
+        Schema::create('formfee', function (Blueprint $table) {
             $table->id();
-            $table->date('expenseDate');
-            $table->string('expenseName');
-            $table->decimal('expenseAmount', 10, 2);
-            $table->string('paymentMethod');
-            $table->string('expenseDescription');
+            $table->integer('percent');
             $table->timestamps();
         });
     }
@@ -27,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('expenses');
+        Schema::dropIfExists('formfee');
     }
 };

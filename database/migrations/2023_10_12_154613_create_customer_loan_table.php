@@ -14,17 +14,19 @@ return new class extends Migration
         Schema::create('customer_loan', function (Blueprint $table) {
             $table->id();
             $table->integer('amount');
-            $table->integer('repayment_time');
-            $table->integer('interest_rate');
-            $table->enum('status', ['pending','approved','rejected','manager_approved'])->default('pending');
+            $table->enum('status', ['pending','approved','rejected','processing'])->default('pending');
             $table->enum('payment_status', ['complete','stilled','ongoing','overpaid'])->default('stilled');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('branch_id');
             $table->unsignedBigInteger('customer_id');
-            $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('day_id');
+            $table->unsignedBigInteger('interest_id');
+            $table->unsignedBigInteger('formfee_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('branch_id')->references('id')->on('branch');
-            $table->foreign('category_id')->references('id')->on('category')->onDelete('cascade');
+            $table->foreign('day_id')->references('id')->on('days')->onDelete('cascade');
+            $table->foreign('interest_id')->references('id')->on('interest')->onDelete('cascade');
+            $table->foreign('formfee_id')->references('id')->on('formfee')->onDelete('cascade');
             $table->foreign('customer_id')->references('id')->on('customers');
             $table->timestamps();
         });

@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class Fee extends Model
 {
     use HasFactory;
+    
+    protected $fillable = ['percent']; 
 
-    protected $guarded = [];
-
-    public $table = 'category';
+    public $table = 'formfee';
 
     public function customer_loan(){
-        return $this->hasOne(Customer_Loan::class, 'id', 'customer_loan_id');
+        return $this->hasOne(Customer_Loan::class);
     }
 }

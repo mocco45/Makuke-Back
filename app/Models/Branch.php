@@ -30,5 +30,13 @@ class Branch extends Model
         return $this->hasMany(Customer_Loan::class);
     }
 
+    public function payment_type(){
+        return $this->belongsToMany(Payment_type::class);
+    }
+
+    public function payment_method(){
+        return $this->belongsToMany(Payment_method::class);
+    }
+
     
 }

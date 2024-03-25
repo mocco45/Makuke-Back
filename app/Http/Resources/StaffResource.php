@@ -39,8 +39,7 @@ class StaffResource extends JsonResource
             'role' => $this->role->name,
             'branch' => $this->branch->branch_name,
             'email' => $this->email,
-            'photo' => asset('public/images/staffs/' . $this->photo),
-            // http://localhost:8000/storage/app/public/images/staffs/1694126032.png
+            'photo' => asset('storage/images/staffs/' . $this->photo),
             'created_at' => $this->created_at,
             
         ];

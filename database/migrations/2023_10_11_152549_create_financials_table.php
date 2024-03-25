@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('financials', function (Blueprint $table) {
             $table->id();
-            $table->integer('basicSalary');
-            $table->integer('bankAccount');
+            $table->string('basicSalary');
+            $table->bigInteger('bankAccount');
             $table->string('bankAccountHolderName');
             $table->string('bankName');
             $table->timestamps();

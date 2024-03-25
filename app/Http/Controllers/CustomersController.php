@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer_Loan;
 use App\Models\Customers;
 use App\Services\LoanService;
+use App\Services\NextSMSService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -13,12 +14,11 @@ class CustomersController extends Controller
 {
 
     public function index(){
-        
         if(auth()->user()->role_id == 4){
-            $customers = Customer_Loan::where('user_id', auth()->user()->id)->with('customer', 'customer_guarantee', 'referee', 'referee.referee_guarantee')->get();
+            $customers = Customer_Loan::where('user_id', auth()->user()->id)->with('customer','day','interest','formfee', 'customer_guarantee', 'referee', 'referee.referee_guarantee')->get();
         }
         else{
-            $customers = Customer_Loan::with('customer', 'customer_guarantee', 'referee', 'referee.referee_guarantee')->get();
+            $customers = Customer_Loan::with('customer','day','interest','formfee', 'customer_guarantee', 'referee', 'referee.referee_guarantee')->get();
         }
 
         return response()->json($customers);
@@ -26,8 +26,8 @@ class CustomersController extends Controller
 
     public function show(Customers $customer){
         
-        $customer_find = Customer_Loan::with('customer', 'customer_guarantee', 'referee', 'referee.referee_guarantee')->find($customer->id);
-
+        $customer_find = $customer->customer_loan()
+        ->with('customer', 'day','interest','formfee', 'customer_guarantee', 'referee', 'referee.referee_guarantee')->get();
         return response()->json($customer_find);
     }
 
@@ -35,14 +35,13 @@ class CustomersController extends Controller
         DB::beginTransaction();
 
         try {           
-
+            response($request);
               $request->validate([
-                'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust validation rules as needed
+                'customerImage' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
             ]); 
             
-          
-        if ($request->hasFile('photo')) {
-            $uploadedFile = $request->file('photo');
+        if ($request->hasFile('customerImage')) {
+            $uploadedFile = $request->file('customerImage');
 
             $customerFileName = time() . '.' . $uploadedFile->getClientOriginalExtension();
             
@@ -51,7 +50,7 @@ class CustomersController extends Controller
         $customers = $request->customerId;
 
         if($customers == null){
-            
+
             $newcustomer = Customers::create([
                     'firstName' => $request->firstName,
                     'lastName' => $request->lastName,
@@ -66,8 +65,9 @@ class CustomersController extends Controller
                     'district' => $request->district,
                     'street' => $request->street,
                     'photo' => $customerFileName,
+                    'branch_id' => auth()->user()->branch_id
                 ]);
-
+                
             $customers = $newcustomer->id;
             }
             
@@ -146,6 +146,6 @@ class CustomersController extends Controller
 
         return response()->json(['Customer Delete Successfully']);
     }
-
+    
     
 }

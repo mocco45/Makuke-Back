@@ -16,9 +16,10 @@ class Customer_Guarantee extends Model
         return $this->belongsTo(Customer_Loan::class);
     }
 
-    public function getPhotoCustomerGuarantee($value){
+    public function getPhotoCustomerGuaranteeAttribute($value){
 
-    return asset('storage/app/public/images/customer-guarantees/'.$value);
+    return asset('storage/images/customer-guarantees/'.$value);
 }
+
 
 }

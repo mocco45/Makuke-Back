@@ -27,21 +27,26 @@ class GuaranteeService
         else{
             echo 'there is error in ref2 guarantee';
         }
+        $txtConvert = $request->ref_trusteeGuaranteeValue;
+        $amountRef1 = (int)str_replace(',', '', $txtConvert);
 
         Referee_Guarantee::create([
             'property_name' => $request->ref_trusteeGuaranteeName,
             'photo_ref_guarantee' => $refGuaranteeImg,
-            'value' => $request->ref_trusteeGuaranteeValue,
+            'value' => $amountRef1,
             'region' => $request->ref_region,
             'district' => $request->ref_district,
             'street' => $request->ref_street,
             'referee_id' => $id1
         ]);
 
+        $txtConvert2 = $request->ref2_trusteeGuaranteeValue;
+        $amountRef2 = (int)str_replace(',', '', $txtConvert2);
+
         Referee_Guarantee::create([
             'property_name' => $request->ref2_trusteeGuaranteeName,
             'photo_ref_guarantee' => $ref2GuaranteeImg,
-            'value' => $request->ref2_trusteeGuaranteeValue,
+            'value' => $amountRef2,
             'region' => $request->ref2_region,
             'district' => $request->ref2_district,
             'street' => $request->ref2_street, 
@@ -61,14 +66,41 @@ class GuaranteeService
             echo 'there is error in customer guarantee';
         }
 
-        Customer_Guarantee::create([
+        $txtConvert = $request->customerGuaranteeValue;
+        $amount = (int)str_replace(',', '', $txtConvert);
+
+        $verify = Customer_Guarantee::create([
             'property_name' => $request->customerGuaranteeName,
             'photo_customer_guarantee' => $customerGuaranteeImage,
-            'value' => $request->customerGuaranteeValue,
-            'region' => $request->ref_region,
-            'district' => $request->ref_district,
-            'street' => $request->ref_street,
+            'value' => $amount,
+            'region' => $request->region, 
+            'district' => $request->district,
+            'street' => $request->street,
             'customer_loan_id' => $id
         ]);
+
+        if($verify){
+            try {
+                $sendin = new NextSMSService();
+                $fullName = $request->firstName . ' ' . $request->lastName;
+                $message = "Hongera na karibu kwenye familia! $fullName Tunafurahi Kukujulisha kua Mkopo wako umeshasajiliwa kikamilifu kwenye mfumo wetu.\n";
+                $message .= "Wasiliana nasi kwa Msaada kuhusu huduma zetu:\n";
+                $message .= "Office\n";
+                $message .= "0769461300\n"; 
+                $message .= "0672461304\n";
+                $message .= "CEO\n"; 
+                $message .= "0769963421";
+                $tel = $request->phone;
+                $response = $sendin->sendSMS($tel, $message);
+        
+                echo $response;
+            } catch (\Throwable $th) {
+                return response()->json(['Error occurred', 'error' => $th->getMessage()], 500);
+            }
+        }
+
+
+
     }
+    
 }

@@ -2,83 +2,100 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
+use App\Models\Days;
+use App\Models\Fee;
+use App\Models\Interest;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function index(){
-        $categories = Category::all();
+    public function index_days(){
+        $days = Days::all();
 
-        return response()->json(['Category list', 'categories' => $categories], 200); 
+        return response()->json($days, 200); 
     }
 
-    public function show(Category $category){
-        $categoryFind = Category::find($category->id);
+    public function index_interest(){
+        $interest = Interest::all();
+
+        return response()->json($interest, 200); 
+    }
+
+    public function index_form_fee(){
+        $fees = Fee::all();
+
+        return response()->json($fees, 200); 
+    }
+
+    public function show_days(Days $days){
+        $dayFind = Days::find($days->id);
         
-        return response()->json(['Specific Category', 'category' => $categoryFind], 200);
+        return response()->json($dayFind, 200);
     }
 
-    public function store(Request $request){
-        $valid = $request->validate([
-            'name' => 'required|string',
-            'start_range' => 'required|numeric',
-            'final_range' => 'required|numeric',
-            'duration' => 'required|numeric',
-            'interest' => 'required|numeric',
-        ]);
-
-        if($valid){
-            Category::create([
-                'name' => $request->name,
-                'start_range' => $request->start_range,
-                'final_range' => $request->final_range,
-                'duration' => $request->duration,
-                'interest' => $request->interest,
-            ]);
-
-            return response()->json(['Category Successfully Created']);
-        }
-        else{
-            return response()->json(['Error occured'], abort(404));
-        }
+    public function show_interest(Interest $interest){
+        $findInterest = Interest::find($interest->id);
+        
+        return response()->json($findInterest, 200);
     }
 
-    public function edit(Category $category){
-        $categoryFind = Category::find($category->id);
-
-        return response()->json(['Edit category', 'edit' => $categoryFind],200);
+    public function show_form_fee(Fee $fee){
+        $feeFind = Fee::find($fee->id);
+        
+        return response()->json($feeFind, 200);
     }
 
-    public function update(Request $request, Category $category){
-        $valid = $request->validate([
-            'name' => 'required|string',
-            'start_range' => 'required|numeric',
-            'final_range' => 'required|numeric',
-            'duration' => 'required|numeric',
-            'interest' => 'required|numeric',
-        ]);
+    public function store_days(Request $request){
+        Days::create(['duration' => $request->days]);
 
-        if($valid){
-            $categorUpdate = Category::find($category->id);
-            $categorUpdate->update($valid);
-
-            return response()->json(['Category Successfully Updated']);
-        }
-        else{
-            return response()->json(['Error occured'], abort(404));
-        }
+        return response()->json(['Day Created Successfully']);
     }
 
-    public function destroy(Category $category){
+    public function store_interest(Request $request){
+        Interest::create(['percent' => $request->interest]);
 
-        $del = $category->delete();
+        return response()->json(['Interest Created Successfully']);
+    }
+
+    public function store_form_fee(Request $request){
+        Fee::create(['amount' => $request->formFee]);
+
+        return response()->json(['Form Fee Created Successfully']);
+    }
+
+    public function destroy_day(Days $day){
+
+        $del = $day->delete();
 
         if($del){
-            return response()->json(['Category Deletion Successfully']);
+            return response()->json(['Day Deletion Successfully']);
         }
         else{
-            return response()->json(['Category Deletion Failed']);
+            return response()->json(['Day Deletion Failed']);
+        }
+    }
+
+    public function destroy_interest(Interest $interest){
+
+        $del = $interest->delete();
+
+        if($del){
+            return response()->json(['Interest Deletion Successfully']);
+        }
+        else{
+            return response()->json(['Interest Deletion Failed']);
+        }
+    }
+
+    public function destroy_formfee(Fee $fee){
+
+        $del = $fee->delete();
+
+        if($del){
+            return response()->json(['Form Fee Deletion Successfully']);
+        }
+        else{
+            return response()->json(['Form Fee Deletion Failed']);
         }
     }
 }
