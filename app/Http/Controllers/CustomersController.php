@@ -35,10 +35,10 @@ class CustomersController extends Controller
         DB::beginTransaction();
 
         try {           
-            response($request);
-              $request->validate([
-                'customerImage' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
-            ]); 
+            // response($request);
+            //   $request->validate([
+            //     'customerImage' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120'
+            // ]); 
             
         if ($request->hasFile('customerImage')) {
             $uploadedFile = $request->file('customerImage');

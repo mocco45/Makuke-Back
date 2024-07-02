@@ -32,8 +32,7 @@ class Payment_MethodController extends Controller
     public function store(Request $request)
     {
         $res = Payment_method::create([
-            'payment_method' => $request->method,
-            'type' => $request->type
+            'payment_method' => $request->method
         ]);
 
         if($res){

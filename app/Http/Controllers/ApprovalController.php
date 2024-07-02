@@ -30,7 +30,7 @@ class ApprovalController extends Controller
             $pending = Customer_Loan::where('status','pending')->get();
             
         }elseif(Auth::user()->role_id == 2 || Auth::user()->role_id == 1 || Auth::user()->role_id == 5){
-            $pending = Customer_Loan::where('status','processing')->get();
+            $pending = Customer_Loan::where('status','processing')->orwhere('status', 'pending')->get();
         }
         
         return loanResource::collection($pending);
@@ -114,6 +114,24 @@ class ApprovalController extends Controller
      return response()->json(['error' => $th->getMessage()]);       
     }
 
+    }
+
+    public function complete(){
+        $loan = Customer_Loan::where('status','approved')->where('payment_status','complete')->get();
+        
+        return loanResource::collection($loan);
+    }
+
+    public function overpay(){
+        $loan = Customer_Loan::where('status','approved')->where('payment_status','overpaid')->get();
+        
+        return loanResource::collection($loan);
+    }
+
+    public function stilled(){
+        $loan = Customer_Loan::where('status','approved')->where('payment_status','stilled')->get();
+        
+        return loanResource::collection($loan);
     }
 
 }

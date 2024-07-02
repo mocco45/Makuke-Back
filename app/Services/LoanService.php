@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Models\Customer_Loan;
 use App\Models\Days;
 use App\Models\Fee;
-use App\Models\Income;
 use App\Models\Interest;
 
 class LoanService 
@@ -31,8 +30,8 @@ class LoanService
             $principal = (int)str_replace(',', '', $txtConvert);
             $interestRate = ($interest)/100;
             $loan_interest = $principal + ($principal * $interestRate);
-            $form_fee = ($formfee * $request->principal)/100;
             
+            $form_fee = ($formfee * $request->principal)/100;
             $loan = Customer_Loan::create([
                 'amount' => $loan_interest,
                 'loan_remain' => $loan_interest,

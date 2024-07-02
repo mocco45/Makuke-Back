@@ -24,18 +24,19 @@ class LoanPaymentController extends Controller
 
     public function store(PaymentRequest $request, Customer_Loan $customer_loan){
         $data = $request->validated();
+        $amount = (int)str_replace(',', '', $data['amount']);
         if($customer_loan->status == 'approved'){
             Loan_Payment::create([
                 'customer_loan_id' => $customer_loan->id,
-                'amount' => $data['amount'],
+                'amount' => $amount,
                 'payment_type_id' => $data['type'],
                 'payment_method_id' => $data['method']
             ]);
             
                 if($customer_loan->amount == $customer_loan->loan_remain){
-                    $payment = $customer_loan->amount - $data['amount'];
+                    $payment = $customer_loan->amount - $amount;
                 }else{
-                    $payment = $customer_loan->loan_remain - $data['amount'];
+                    $payment = $customer_loan->loan_remain - $amount;
                 }
                     $pay = $customer_loan->update([
                         'loan_remain' => $payment
@@ -80,7 +81,7 @@ class LoanPaymentController extends Controller
                     ]);       
                 }
 
-            return response()->json(["Amount {$data['amount']} paid successfully"]);
+            return response()->json(["Amount {$amount} paid successfully"]);
     }
     else{
             return response()->json(['Loan Payment Not Approved']);

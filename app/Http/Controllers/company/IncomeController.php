@@ -63,6 +63,14 @@ class IncomeController extends Controller
                     ->with('account_name', 'account_category')
                     ->groupBy('account_name_id')
                     ->get();
+        
+        $total_rev = Income::selectRaw('account_name_id, SUM(incomeAmount) as total_amount')
+        ->whereBetween('incomeDate', [$request->minDate, $request->maxDate])
+        ->with('account_name', 'account_category')->sum('incomeAmount');
+
+        $total_exp = Expense::selectRaw('account_name_id, SUM(expenseAmount) as total_amount')
+        ->whereBetween('expenseDate', [$request->minDate, $request->maxDate])
+        ->with('account_name', 'account_category')->sum('expenseAmount');
 
         $incomesExpenses['incomes'] = $incomes->map(function ($income){
                         return [
@@ -80,7 +88,10 @@ class IncomeController extends Controller
                             'name' =>  $expense->account_name->name,
                             'type' => 'expense'
                         ];
-                    });;
+                    });
+        
+        // $incomesExpenses['incomes'] ['total_rev'] = $total_rev;
+        // $incomesExpenses['expenses'] ['total_exp'] = $total_exp;
                     
         // $incomesAndExpenses = $incomes->concat($expenses)->map(function ($transaction) {
         //                 return [

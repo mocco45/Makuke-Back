@@ -43,6 +43,9 @@ Route::middleware(['auth:sanctum'])->group(function(){
         Route::get('/loan-pending/{customer_Loan}', 'showPending');
         Route::get('/loan-approval', 'index');
         Route::get('/loan-ongoing', 'ongoing');
+        Route::get('/loan-complete', 'complete');
+        Route::get('/loan-overpay', 'overpay');
+        Route::get('/loan-stilled', 'stilled');
         Route::get('/reject', 'rejected');
 
     });

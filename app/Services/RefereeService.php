@@ -8,7 +8,11 @@ class RefereeService
 
     public function store($request, $cid)
     {
-        
+        // response($request);
+        //       $request->validate([
+        //         'ref_photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+        //         'ref2_photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+        //     ]); 
             if ($request->hasFile('ref_photo')) {
             $uploadedRefFile = $request->file('ref_photo');
             $refImage = time() . '.' . $uploadedRefFile->getClientOriginalExtension();
