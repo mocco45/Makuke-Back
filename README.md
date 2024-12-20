@@ -12,5 +12,5 @@ This is the e-commerse project specific for mr makuke to help his business proce
 - Allowances
 - Reports
 
-   
-
+  ## NOTICE 
+This is backend service only API
